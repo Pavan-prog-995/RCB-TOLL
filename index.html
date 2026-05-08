@@ -3,129 +3,281 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RCB--TOOL</title>
+<title>Resume Optimizer Tool</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',sans-serif;background:#0f1117;color:#e0e0e0;min-height:100vh}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e0e0e0; min-height: 100vh; }
 
-  /* LOGIN */
-  #loginScreen{position:fixed;inset:0;background:#0f1117;display:flex;align-items:center;justify-content:center;z-index:9999}
-  .login-box{background:#1a1f2e;border:1px solid #2d3561;border-radius:14px;padding:40px 36px;width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-  .login-box .lk{font-size:44px;margin-bottom:14px}
-  .login-box h2{font-size:20px;color:#fff;margin-bottom:6px}
-  .login-box p{font-size:12px;color:#6b7280;margin-bottom:24px}
-  #pwInput{width:100%;padding:12px 14px;background:#0f1117;border:1.5px solid #2a2f45;border-radius:8px;color:#e0e0e0;font-size:16px;letter-spacing:2px;text-align:center;outline:none;margin-bottom:14px;transition:border .2s}
-  #pwInput:focus{border-color:#3d4fd6}
-  #pwInput.shake{animation:shake .4s ease;border-color:#ef4444}
-  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
-  .login-btn{width:100%;padding:13px;background:#3d4fd6;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s}
-  .login-btn:hover{background:#4f61e8}
-  .login-btn:active{background:#3340b8}
-  #loginErr{font-size:12px;color:#ef4444;margin-top:10px;min-height:18px}
-  #attemptsMsg{font-size:11px;color:#6b7280;margin-top:6px;min-height:16px}
+  /* ── LOGIN SCREEN ── */
+  #loginScreen {
+    position: fixed; inset: 0; background: #0f1117;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+  }
+  .login-box {
+    background: #1a1f2e; border: 1px solid #2d3561; border-radius: 14px;
+    padding: 40px 36px; width: 340px; text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .login-box .lock { font-size: 44px; margin-bottom: 14px; }
+  .login-box h2 { font-size: 20px; color: #fff; margin-bottom: 6px; }
+  .login-box p { font-size: 12px; color: #6b7280; margin-bottom: 24px; }
+  .login-box input {
+    width: 100%; padding: 12px 14px; background: #0f1117;
+    border: 1px solid #2a2f45; border-radius: 8px; color: #e0e0e0;
+    font-size: 15px; letter-spacing: 3px; text-align: center;
+    outline: none; transition: border 0.2s; margin-bottom: 14px;
+  }
+  .login-box input:focus { border-color: #3d4fd6; }
+  .login-box input.shake {
+    animation: shake 0.4s ease;
+    border-color: #ef4444;
+  }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px)}
+    40%{transform:translateX(8px)}
+    60%{transform:translateX(-6px)}
+    80%{transform:translateX(6px)}
+  }
+  .login-btn {
+    width: 100%; padding: 12px; background: #3d4fd6; color: #fff;
+    border: none; border-radius: 8px; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .login-btn:hover { background: #4f61e8; }
+  .login-err {
+    font-size: 12px; color: #ef4444; margin-top: 10px;
+    min-height: 18px; transition: opacity 0.3s;
+  }
+  .attempts { font-size: 11px; color: #6b7280; margin-top: 8px; }
 
-  /* LOCKOUT */
-  #lockoutScreen{display:none;position:fixed;inset:0;background:#0f1117;align-items:center;justify-content:center;z-index:9999}
-  .lockout-box{background:#1a1f2e;border:1px solid #ef4444;border-radius:14px;padding:36px;width:320px;text-align:center}
-  .lockout-box .ico{font-size:44px;margin-bottom:12px}
-  .lockout-box h2{color:#ef4444;margin-bottom:8px}
-  .lockout-box p{font-size:13px;color:#94a3b8}
-  #lockTimer{font-size:28px;font-weight:700;color:#f97316;margin:16px 0}
+  /* ── LOCKOUT SCREEN ── */
+  #lockoutScreen {
+    display: none; position: fixed; inset: 0; background: #0f1117;
+    align-items: center; justify-content: center; z-index: 9999;
+  }
+  .lockout-box {
+    background: #1a1f2e; border: 1px solid #ef4444; border-radius: 14px;
+    padding: 36px; width: 320px; text-align: center;
+  }
+  .lockout-box .icon { font-size: 44px; margin-bottom: 12px; }
+  .lockout-box h2 { color: #ef4444; font-size: 18px; margin-bottom: 8px; }
+  .lockout-box p { font-size: 13px; color: #94a3b8; }
+  #lockTimer { font-size: 28px; font-weight: 700; color: #f97316; margin: 16px 0; }
 
-  /* MAIN */
-  #mainApp{display:none}
-  .header{background:linear-gradient(135deg,#1a1f2e,#2d3561);padding:16px 28px;display:flex;align-items:center;gap:14px;border-bottom:2px solid #3d4fd6}
-  .header h1{font-size:20px;color:#fff}
-  .header span{font-size:12px;color:#8892b0}
-  .badge{background:#3d4fd6;color:#fff;font-size:11px;padding:3px 10px;border-radius:20px}
-  .logout-btn{margin-left:auto;padding:7px 14px;background:#2a2f45;color:#ccc;border:none;border-radius:6px;cursor:pointer;font-size:12px;transition:background .2s}
-  .logout-btn:hover{background:#ef4444;color:#fff}
+  /* ── MAIN APP (hidden until login) ── */
+  #mainApp { display: none; }
 
-  .steps{display:flex;background:#161b27;border-bottom:1px solid #2a2f45}
-  .step{flex:1;padding:13px 8px;text-align:center;cursor:pointer;font-size:12px;color:#6b7280;border-bottom:3px solid transparent;transition:all .2s}
-  .step.active{color:#3d4fd6;border-bottom-color:#3d4fd6;background:#1a2035}
-  .step.done{color:#22c55e;border-bottom-color:#22c55e}
-  .num{display:inline-block;width:20px;height:20px;border-radius:50%;background:#2a2f45;color:#aaa;font-size:11px;line-height:20px;margin-right:5px;font-weight:bold}
-  .step.active .num{background:#3d4fd6;color:#fff}
-  .step.done .num{background:#22c55e;color:#fff}
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #1a1f2e, #2d3561);
+    padding: 16px 28px; display: flex; align-items: center; gap: 14px;
+    border-bottom: 2px solid #3d4fd6;
+  }
+  .header h1 { font-size: 20px; color: #fff; }
+  .header span { font-size: 12px; color: #8892b0; }
+  .badge { background: #3d4fd6; color: #fff; font-size: 11px; padding: 3px 10px; border-radius: 20px; }
+  .logout-btn {
+    margin-left: auto; padding: 7px 14px; background: #2a2f45; color: #ccc;
+    border: none; border-radius: 6px; cursor: pointer; font-size: 12px;
+    transition: background 0.2s;
+  }
+  .logout-btn:hover { background: #ef4444; color: #fff; }
 
-  .container{height:calc(100vh - 112px);overflow:hidden}
-  .panel{height:100%;padding:18px 22px;overflow-y:auto;display:none;flex-direction:column;gap:12px}
-  .panel.active{display:flex}
-  .lbl{font-size:11px;color:#8892b0;font-weight:700;letter-spacing:.6px;text-transform:uppercase}
-  textarea{width:100%;background:#1a1f2e;border:1px solid #2a2f45;border-radius:8px;color:#e0e0e0;padding:12px;font-size:13px;resize:vertical;font-family:'Segoe UI',sans-serif;line-height:1.6;transition:border .2s}
-  textarea:focus{outline:none;border-color:#3d4fd6}
-  .btn{padding:10px 20px;border:none;border-radius:7px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
-  .btn:hover{transform:translateY(-1px)}
-  .bp{background:#3d4fd6;color:#fff}.bp:hover{background:#4f61e8}
-  .bg{background:#22c55e;color:#fff}.bg:hover{background:#16a34a}
-  .bo{background:#f97316;color:#fff}.bo:hover{background:#ea6c0a}
-  .bgr{background:#2a2f45;color:#ccc}.bgr:hover{background:#353b56}
-  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  .card{background:#1a2035;border:1px solid #2d3561;border-radius:8px;padding:13px;font-size:13px;color:#94a3b8;line-height:1.7}
-  .card strong{color:#3d4fd6}
-  .card.warn{border-color:#f97316}.card.warn strong{color:#f97316}
-  .code-box{background:#1a1f2e;border:1px solid #2a2f45;border-radius:8px;padding:12px;font-size:11.5px;color:#94a3b8;line-height:1.7;white-space:pre-wrap;word-break:break-word;max-height:220px;overflow-y:auto;font-family:'Courier New',monospace}
-  .latex-area{flex:1;width:100%;min-height:0;background:#1a1f2e;border:1px solid #2a2f45;border-radius:8px;color:#e0e0e0;padding:12px;font-family:'Courier New',monospace;font-size:12px;resize:none;line-height:1.6}
-  .latex-area:focus{outline:none;border-color:#3d4fd6}
-  #step4Panel{flex-direction:column}
-  .pdf-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:#161b27;padding:10px 14px;border-radius:8px;border:1px solid #2a2f45}
-  .pdf-frame-wrap{flex:1;min-height:0;border-radius:8px;overflow:hidden;border:1px solid #2a2f45;background:#1a1f2e;position:relative}
-  iframe#pdfFrame{width:100%;height:100%;border:none;display:block}
-  .pdf-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#6b7280;gap:10px;font-size:14px;padding:20px;text-align:center}
-  .pdf-placeholder .ico{font-size:48px}
-  .spinner{display:none;width:20px;height:20px;border:3px solid #2a2f45;border-top-color:#3d4fd6;border-radius:50%;animation:spin .8s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .status-pill{font-size:11px;padding:3px 10px;border-radius:20px;background:#2a2f45;color:#aaa}
-  .status-pill.ok{background:#14532d;color:#86efac}
-  .status-pill.err{background:#450a0a;color:#fca5a5}
-  .status-pill.loading{background:#1e3a5f;color:#93c5fd}
-  .instr{background:#1a2035;border-left:4px solid #f97316;border-radius:0 8px 8px 0;padding:13px;font-size:13px;line-height:1.8;color:#cbd5e1}
-  .instr ol{padding-left:18px}
-  .instr li{margin-bottom:3px}
-  .toast{position:fixed;bottom:24px;right:24px;background:#22c55e;color:#fff;padding:11px 18px;border-radius:8px;font-size:13px;font-weight:600;z-index:99999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none}
-  .toast.show{opacity:1;transform:translateY(0)}
-  .toast.err{background:#ef4444}
-  .toast.inf{background:#3b82f6}
-  ::-webkit-scrollbar{width:5px}
-  ::-webkit-scrollbar-track{background:#1a1f2e}
-  ::-webkit-scrollbar-thumb{background:#3d4fd6;border-radius:3px}
+  /* ── STEPS ── */
+  .steps { display: flex; background: #161b27; border-bottom: 1px solid #2a2f45; }
+  .step {
+    flex: 1; padding: 13px 8px; text-align: center; cursor: pointer;
+    font-size: 12px; color: #6b7280; border-bottom: 3px solid transparent; transition: all 0.2s;
+  }
+  .step.active { color: #3d4fd6; border-bottom-color: #3d4fd6; background: #1a2035; }
+  .step.done { color: #22c55e; border-bottom-color: #22c55e; }
+  .num {
+    display: inline-block; width: 20px; height: 20px; border-radius: 50%;
+    background: #2a2f45; color: #aaa; font-size: 11px; line-height: 20px;
+    margin-right: 5px; font-weight: bold;
+  }
+  .step.active .num { background: #3d4fd6; color: #fff; }
+  .step.done .num { background: #22c55e; color: #fff; }
+
+  /* ── PANELS ── */
+  .container { height: calc(100vh - 112px); overflow: hidden; }
+  .panel { height: 100%; padding: 18px 22px; overflow-y: auto; display: none; flex-direction: column; gap: 12px; }
+  .panel.active { display: flex; }
+
+  .lbl { font-size: 11px; color: #8892b0; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; }
+
+  textarea {
+    width: 100%; background: #1a1f2e; border: 1px solid #2a2f45; border-radius: 8px;
+    color: #e0e0e0; padding: 12px; font-size: 13px; resize: vertical;
+    font-family: 'Segoe UI', sans-serif; line-height: 1.6; transition: border 0.2s;
+  }
+  textarea:focus { outline: none; border-color: #3d4fd6; }
+
+  .btn {
+    padding: 10px 20px; border: none; border-radius: 7px; cursor: pointer;
+    font-size: 13px; font-weight: 600; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .bp { background: #3d4fd6; color: #fff; }
+  .bp:hover { background: #4f61e8; }
+  .bg { background: #22c55e; color: #fff; }
+  .bg:hover { background: #16a34a; }
+  .bo { background: #f97316; color: #fff; }
+  .bo:hover { background: #ea6c0a; }
+  .bgr { background: #2a2f45; color: #ccc; }
+  .bgr:hover { background: #353b56; }
+
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+  .card {
+    background: #1a2035; border: 1px solid #2d3561; border-radius: 8px;
+    padding: 13px; font-size: 13px; color: #94a3b8; line-height: 1.7;
+  }
+  .card strong { color: #3d4fd6; }
+  .card.warn { border-color: #f97316; }
+  .card.warn strong { color: #f97316; }
+
+  .code-box {
+    background: #1a1f2e; border: 1px solid #2a2f45; border-radius: 8px;
+    padding: 12px; font-size: 11.5px; color: #94a3b8; line-height: 1.7;
+    white-space: pre-wrap; word-break: break-word; max-height: 220px; overflow-y: auto;
+    font-family: 'Courier New', monospace;
+  }
+
+  .latex-area {
+    flex: 1; width: 100%; min-height: 0;
+    background: #1a1f2e; border: 1px solid #2a2f45; border-radius: 8px;
+    color: #e0e0e0; padding: 12px; font-family: 'Courier New', monospace;
+    font-size: 12px; resize: none; line-height: 1.6;
+  }
+  .latex-area:focus { outline: none; border-color: #3d4fd6; }
+
+  #step4Panel { flex-direction: column; }
+  .pdf-toolbar {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    background: #161b27; padding: 10px 14px; border-radius: 8px; border: 1px solid #2a2f45;
+  }
+  .pdf-frame-wrap {
+    flex: 1; min-height: 0; border-radius: 8px; overflow: hidden;
+    border: 1px solid #2a2f45; background: #fff; position: relative;
+  }
+  iframe#pdfFrame { width: 100%; height: 100%; border: none; display: block; }
+  .pdf-placeholder {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; color: #6b7280; gap: 10px; font-size: 14px; background: #1a1f2e;
+  }
+  .pdf-placeholder .icon { font-size: 48px; }
+
+  .spinner {
+    display: none; width: 20px; height: 20px; border: 3px solid #2a2f45;
+    border-top-color: #3d4fd6; border-radius: 50%; animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .status-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: #2a2f45; color: #aaa; }
+  .status-pill.ok { background: #14532d; color: #86efac; }
+  .status-pill.err { background: #450a0a; color: #fca5a5; }
+  .status-pill.loading { background: #1e3a5f; color: #93c5fd; }
+
+  .instr { background: #1a2035; border-left: 4px solid #f97316; border-radius: 0 8px 8px 0; padding: 13px; font-size: 13px; line-height: 1.8; color: #cbd5e1; }
+  .instr ol { padding-left: 18px; }
+  .instr li { margin-bottom: 3px; }
+
+  .toast {
+    position: fixed; bottom: 24px; right: 24px; background: #22c55e; color: #fff;
+    padding: 11px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    z-index: 99999; opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .toast.err { background: #ef4444; }
+  .toast.inf { background: #3b82f6; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #1a1f2e; }
+  ::-webkit-scrollbar-thumb { background: #3d4fd6; border-radius: 3px; }
 </style>
 </head>
 <body>
+<!-- IP LOCK -->
+<div id="ipBlockScreen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#0f1117; z-index:99999; flex-direction:column; align-items:center; justify-content:center;">
+  <div style="text-align:center; padding:40px; background:#1a1f2e; border:1px solid #ef4444; border-radius:16px; max-width:420px;">
+    <div style="font-size:48px; margin-bottom:16px;">🔒</div>
+    <h2 style="color:#ef4444; font-size:20px; margin-bottom:10px;">Access Denied</h2>
+    <p style="color:#8892b0; font-size:14px; line-height:1.6;">This tool is restricted to authorized network access only.<br><br>
+      Your IP: <span id="blockedIP" style="color:#f97316; font-family:monospace; font-weight:bold;">detecting...</span><br><br>
+      If you believe this is a mistake, contact your administrator and share your IP address above.</p>
+  </div>
+</div>
+ 
+<script>
+// ════════════════════════════════════════════════════
+//  🌐 IP LOCK CONFIG — ADD YOUR ALLOWED IPs HERE
+// ════════════════════════════════════════════════════
+const ALLOWED_IPS = [
+  "45.59.12.226" ];
+// ════════════════════════════════════════════════════
 
-<!-- LOGIN -->
+(function() {
+  fetch("https://api.ipify.org?format=json")
+    .then(r => r.json())
+    .then(data => {
+      const userIP = data.ip;
+      console.log("Detected IP:", userIP); // helpful for setup/debugging
+      if (!ALLOWED_IPS.includes(userIP)) {
+        const block = document.getElementById("ipBlockScreen");
+        block.style.display = "flex";
+        document.body.style.overflow = "hidden";
+        const ipSpan = document.getElementById("blockedIP");
+        if (ipSpan) ipSpan.textContent = userIP;
+      }
+    })
+    .catch(() => {
+      // If IP check fails, block access to be safe
+      const block = document.getElementById("ipBlockScreen");
+      block.style.display = "flex";
+      document.body.style.overflow = "hidden";
+      const ipSpan = document.getElementById("blockedIP");
+      if (ipSpan) ipSpan.textContent = "could not detect";
+    });
+})();
+</script>
+
+<!-- ── LOGIN SCREEN ───────────────────────────────────────────────────────────-->
 <div id="loginScreen">
   <div class="login-box">
-    <div class="lk">🔐</div>
-    <h2>Resume Optimizer OF RCB</h2>
-    <p>Enter your password to continue</p>
-    <input type="password" id="pwInput" placeholder="Enter password" maxlength="50" autocomplete="off" />
-    <button class="login-btn" id="loginBtn" onclick="checkPW()">Unlock →</button>
-    <div id="loginErr"></div>
-    <div id="attemptsMsg"></div>
+    <div class="lock">🔐</div>
+    <h2>Resume Optimizer</h2>
+    <p>Enter your password to access the tool</p>
+    <input type="password" id="pwInput" placeholder="••••••••" maxlength="30"
+      onkeydown="if(event.key==='Enter')checkPW()" autocomplete="off" />
+    <button class="login-btn" onclick="checkPW()">Unlock →</button>
+    <div class="login-err" id="loginErr"></div>
+    <div class="attempts" id="attemptsMsg"></div>
   </div>
 </div>
 
-<!-- LOCKOUT -->
-<div id="lockoutScreen">
+<!-- ── LOCKOUT SCREEN ─────────────────────────────────────────────────────────-->
+<div id="lockoutScreen" style="display:none;position:fixed;inset:0;background:#0f1117;align-items:center;justify-content:center;z-index:9999;">
   <div class="lockout-box">
-    <div class="ico">🚫</div>
+    <div class="icon">🚫</div>
     <h2>Too Many Attempts</h2>
-    <p>Locked out. Try again in:</p>
+    <p>You have been locked out. Try again in:</p>
     <div id="lockTimer">5:00</div>
-    <p style="font-size:12px;color:#6b7280">Multiple failed attempts detected.</p>
+    <p style="font-size:12px;color:#6b7280;">Locked due to multiple failed attempts.</p>
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- ── MAIN APP ───────────────────────────────────────────────────────────────-->
 <div id="mainApp">
   <div class="header">
     <div>
-      <h1>RCB TOOL </h1>
-      <span>Paste JD → Copy Prompt → Claude AI -> Download PDF</span>
+      <h1>🚀 Resume Optimizer Tool</h1>
+      <span>Paste JD → Copy Prompt → Claude AI → Paste LaTeX → Download PDF</span>
     </div>
-    <div class="badge">PAVAN</div>
+    <div class="badge">ATS 100%</div>
     <button class="logout-btn" onclick="logout()">🔒 Lock</button>
   </div>
 
@@ -137,16 +289,19 @@
   </div>
 
   <div class="container">
+
     <!-- STEP 1 -->
     <div class="panel active" id="step1Panel">
       <div class="lbl">📋 Job Description</div>
-      <textarea id="jdInput" rows="16" placeholder="Paste the full job description here...&#10;&#10;• Job Title&#10;• Required Skills&#10;• Responsibilities&#10;• Location"></textarea>
+      <textarea id="jdInput" rows="16" placeholder="Paste the full job description here...&#10;&#10;Include:&#10;• Job Title  • Required Skills  • Responsibilities  • Location"></textarea>
       <div class="row">
         <button class="btn bp" onclick="generatePrompt()">⚡ Generate Prompt & Continue</button>
         <button class="btn bgr" onclick="document.getElementById('jdInput').value=''">🗑 Clear</button>
-        <span style="font-size:11px;color:#6b7280" id="jdCount">0 chars</span>
+        <span style="font-size:11px;color:#6b7280;" id="jdCount">0 chars</span>
       </div>
-      <div class="card"><strong>How it works:</strong> Paste JD → auto-combines with your resume + ATS instructions → copy → paste into Claude AI → paste LaTeX back → download PDF directly.</div>
+      <div class="card">
+        <strong>How it works:</strong> Paste the job description → auto-combines with your hidden resume + ATS instructions → copy → paste into Claude AI → paste LaTeX back → download PDF.
+      </div>
     </div>
 
     <!-- STEP 2 -->
@@ -158,14 +313,17 @@
         <button class="btn bo" onclick="openClaude()">🔗 Open Claude AI</button>
         <button class="btn bgr" onclick="goStep(1)">← Back</button>
       </div>
-      <div class="instr"><strong>📌 Steps:</strong><ol>
-        <li>Click <strong>Copy Full Prompt</strong></li>
-        <li>Click <strong>Open Claude AI</strong> (new tab opens)</li>
-        <li>Paste into Claude chat → press Enter</li>
-        <li>Wait for full LaTeX code in response</li>
-        <li>Select all Claude response → Copy it</li>
-        <li>Come back here → Step 3 → Paste LaTeX</li>
-      </ol></div>
+      <div class="instr">
+        <strong>📌 Steps:</strong>
+        <ol>
+          <li>Click <strong>Copy Full Prompt</strong></li>
+          <li>Click <strong>Open Claude AI</strong> (new tab)</li>
+          <li>Paste into Claude chat → press Enter</li>
+          <li>Wait for full LaTeX code response</li>
+          <li>Select all Claude's response → Copy</li>
+          <li>Come back here → Step 3 → Paste LaTeX</li>
+        </ol>
+      </div>
     </div>
 
     <!-- STEP 3 -->
@@ -175,11 +333,14 @@
         <button class="btn bp" onclick="pasteLatex()">📋 Paste from Clipboard</button>
         <button class="btn bgr" onclick="document.getElementById('latexEditor').value='';updateLC()">🗑 Clear</button>
         <button class="btn bg" onclick="compileAndGo()">🔄 Compile PDF →</button>
-        <span style="font-size:11px;color:#6b7280" id="lcCount">0 lines</span>
+        <span style="font-size:11px;color:#6b7280;" id="lcCount">0 lines</span>
       </div>
-      <textarea class="latex-area" id="latexEditor" style="height:calc(100vh - 290px)"
-        placeholder="Paste your LaTeX from Claude AI here..." oninput="updateLC()"></textarea>
-      <div class="card warn"><strong>Tip:</strong> Edit names, dates, bullet points here. Then click <strong>Compile PDF</strong>.</div>
+      <textarea class="latex-area" id="latexEditor" style="height:calc(100vh - 290px);"
+        placeholder="Paste your LaTeX from Claude AI here...&#10;&#10;\documentclass[a4paper,10pt]{article}&#10;..."
+        oninput="updateLC()"></textarea>
+      <div class="card warn">
+        <strong>Tip:</strong> Edit anything here — names, dates, bullet points. Then click <strong>Compile PDF</strong>.
+      </div>
     </div>
 
     <!-- STEP 4 -->
@@ -190,115 +351,112 @@
         <button class="btn bgr" onclick="goStep(3)">← Edit LaTeX</button>
         <div class="spinner" id="spin"></div>
         <span class="status-pill" id="statusPill">Waiting...</span>
-        <button class="btn bo" style="margin-left:auto" onclick="copyLatexForOverleaf();openOverleaf()">🍃 Overleaf Backup</button>
+        <button class="btn bo" style="margin-left:auto;" onclick="copyLatexForOverleaf();openOverleaf()">🍃 Overleaf Backup</button>
       </div>
-      <div class="pdf-frame-wrap">
-        <div class="pdf-placeholder" id="pdfPlaceholder"><div class="ico">📄</div><div>Compile PDF from Step 3 to preview here</div></div>
-        <iframe id="pdfFrame" style="display:none"></iframe>
+      <div class="pdf-frame-wrap" id="pdfWrap">
+        <div class="pdf-placeholder" id="pdfPlaceholder">
+          <div class="icon">📄</div>
+          <div>Compile PDF from Step 3 to preview here</div>
+        </div>
+        <iframe id="pdfFrame" style="display:none;"></iframe>
       </div>
     </div>
+
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════
-//  PASSWORD — change this to your password
-// ═══════════════════════════════════════════
-var PASS = "Pavan@2026";
-var MAX_TRY = 5;
-var LOCK_SEC = 300;
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════════════════
+//  🔐 PASSWORD CONFIG — CHANGE THIS TO YOUR PASSWORD
+// ════════════════════════════════════════════════════
+const CORRECT_PASSWORD = "Pavan@2026";   // ← Change this
+const MAX_ATTEMPTS     = 5;              // wrong tries before lockout
+const LOCKOUT_SECONDS  = 300;            // 5 minutes lockout
+// ════════════════════════════════════════════════════
 
-var tries = 0;
-var isLocked = false;
-var lockTick = null;
-var fullPrompt = "";
-var pdfBlob = null;
-var pdfUrl = null;
+let attempts = 0;
+let locked   = false;
+let lockInterval = null;
 
-// bind Enter key on password input
-document.getElementById("pwInput").addEventListener("keydown", function(e){
-  if(e.key === "Enter"){ e.preventDefault(); checkPW(); }
-});
+// ── Check session (stay logged in on refresh within same tab) ──────────────────
+if (sessionStorage.getItem('auth') === 'ok') showApp();
 
-// check stored login
-try {
-  if(sessionStorage.getItem("resume_auth") === "yes"){ showApp(); }
-} catch(e){}
+function checkPW() {
+  if (locked) return;
+  const val = document.getElementById('pwInput').value;
 
-function checkPW(){
-  if(isLocked) return;
-  var val = document.getElementById("pwInput").value;
-  if(val === PASS){
-    tries = 0;
-    try{ sessionStorage.setItem("resume_auth","yes"); }catch(e){}
+  if (val === CORRECT_PASSWORD) {
+    sessionStorage.setItem('auth', 'ok');
+    attempts = 0;
     showApp();
   } else {
-    tries++;
-    var inp = document.getElementById("pwInput");
-    inp.value = "";
-    inp.classList.remove("shake");
-    void inp.offsetWidth; // reflow to restart animation
-    inp.classList.add("shake");
-    setTimeout(function(){ inp.classList.remove("shake"); }, 450);
+    attempts++;
+    const input = document.getElementById('pwInput');
+    input.classList.add('shake');
+    setTimeout(() => input.classList.remove('shake'), 450);
+    input.value = '';
 
-    var left = MAX_TRY - tries;
-    document.getElementById("loginErr").textContent = "❌ Incorrect password";
+    const left = MAX_ATTEMPTS - attempts;
+    document.getElementById('loginErr').textContent = '❌ Wrong password';
 
-    if(tries >= MAX_TRY){
+    if (attempts >= MAX_ATTEMPTS) {
       startLockout();
     } else {
-      document.getElementById("attemptsMsg").textContent = left + " attempt" + (left===1?"":"s") + " left";
+      document.getElementById('attemptsMsg').textContent = left + ' attempt' + (left===1?'':'s') + ' remaining';
     }
   }
 }
 
-function startLockout(){
-  isLocked = true;
-  document.getElementById("loginScreen").style.display = "none";
-  var ls = document.getElementById("lockoutScreen");
-  ls.style.display = "flex";
-  var rem = LOCK_SEC;
-  tickLock(rem);
-  lockTick = setInterval(function(){
-    rem--;
-    tickLock(rem);
-    if(rem <= 0){
-      clearInterval(lockTick);
-      isLocked = false;
-      tries = 0;
-      ls.style.display = "none";
-      document.getElementById("loginScreen").style.display = "flex";
-      document.getElementById("loginErr").textContent = "";
-      document.getElementById("attemptsMsg").textContent = "";
+function startLockout() {
+  locked = true;
+  document.getElementById('loginScreen').style.display  = 'none';
+  const ls = document.getElementById('lockoutScreen');
+  ls.style.display = 'flex';
+
+  let remaining = LOCKOUT_SECONDS;
+  updateLockTimer(remaining);
+
+  lockInterval = setInterval(() => {
+    remaining--;
+    updateLockTimer(remaining);
+    if (remaining <= 0) {
+      clearInterval(lockInterval);
+      locked   = false;
+      attempts = 0;
+      ls.style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('loginErr').textContent = '';
+      document.getElementById('attemptsMsg').textContent = '';
     }
   }, 1000);
 }
 
-function tickLock(s){
-  document.getElementById("lockTimer").textContent = Math.floor(s/60) + ":" + String(s%60).padStart(2,"0");
+function updateLockTimer(s) {
+  const m = Math.floor(s/60), sec = s%60;
+  document.getElementById('lockTimer').textContent = m + ':' + String(sec).padStart(2,'0');
 }
 
-function showApp(){
-  document.getElementById("loginScreen").style.display = "none";
-  document.getElementById("mainApp").style.display = "block";
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
 }
 
-function logout(){
-  try{ sessionStorage.removeItem("resume_auth"); }catch(e){}
-  document.getElementById("mainApp").style.display = "none";
-  document.getElementById("loginScreen").style.display = "flex";
-  document.getElementById("pwInput").value = "";
-  document.getElementById("loginErr").textContent = "";
-  document.getElementById("attemptsMsg").textContent = "";
-  tries = 0;
+function logout() {
+  sessionStorage.removeItem('auth');
+  document.getElementById('mainApp').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('pwInput').value = '';
+  document.getElementById('loginErr').textContent = '';
+  document.getElementById('attemptsMsg').textContent = '';
+  attempts = 0;
 }
 
-// ─── PROMPT ───────────────────────────────────────────────
-var HIDDEN_PROMPT = "
-You are an ATS(test) resume optimizer trained to generate resumes that score 100% on applicant tracking systems. Your task is to return ONLY optimized Latex output — no comments, no explanations, and no extra text.
+// ════════════════════════════════════════════════════
+//  HIDDEN PROMPT TEMPLATE
+// ════════════════════════════════════════════════════
+const HIDDEN_PROMPT = `You are an ATS resume optimizer trained to generate resumes that score 100% on applicant tracking systems. Your task is to return ONLY optimized Latex output — no comments, no explanations, and no extra text.
 
                     INSTRUCTIONS:
                     - Output must be a valid Latex resume ONLY. Do not include markdown, formatting hints, or explanations.
@@ -326,7 +484,7 @@ STRICT VERB-TENSE RULES:
     1. Current Project (latest/ongoing role):
        • Use mix of present tense and past tense verbs
        # End of Selection
-
+```
        • DO NOT use present-continuous (-Ing) verbs
        
     2. Completed Projects (all previous roles):
@@ -348,10 +506,14 @@ FORBIDDEN WORDS (DO NOT USE UNDER ANY CIRCUMSTANCES):
     "Engineered", "Championed", "Led", "Investigated", "Spearheaded", 
     "Revolutionized", "Pioneered", "Masterminded"
     
+    
+
 SECTION RULES
 
 PERSONAL INF
     • Change the title according to JD best suitable title that is perfectly aligned with JD
+
+
 SUMMARY
     • Create exactly 18 bullet points with character length between 230-280 characters per bullet
     • 5+ years of experience in [specialization]" in a human way
@@ -399,6 +561,9 @@ CLIENT 1 (Senior-most role - most recent) - Xylem (Chicago, Illinois)(remote)
     • Location: Chicago, Illinois
     • I already have Azure, use only this cloud. Integrate JD keywords with Azure cloud services only
 
+
+
+
 CLIENT 2 (Client 2 level) - Early Warning (Chicago, Illinois)(onsite)
     • Do not change the role, keep the original role
     • Write exactly 14 bullet points per role, each between 230-280 characters long
@@ -409,6 +574,10 @@ CLIENT 2 (Client 2 level) - Early Warning (Chicago, Illinois)(onsite)
     • Each verb MUST be unique - NO verb repetition across entire resume
     • Location: Chicago, Illinois
     • I already have Azure, use only this cloud. Integrate JD keywords with Azure cloud services only
+
+
+
+
 CLIENT 3 (Client 3 level) - University of Missouri Kansas City(Kansas City, MO)(onsite)
     • Do not change the role, keep the original role
     • Write exactly 12 bullet points per role, each between 230-280 characters long
@@ -419,6 +588,9 @@ CLIENT 3 (Client 3 level) - University of Missouri Kansas City(Kansas City, MO)(
     • Each verb MUST be unique - NO verb repetition across entire resume
     • Location: Delaware
     • I already have AWS, use only this cloud. Integrate JD keywords with AWS cloud services only
+
+
+
 
 CLIENT 4 (Client 4 level) - 3I Infotech (India)(onsite)
     • Do not change the role, keep the original role
@@ -494,9 +666,12 @@ Generate a Latex artifact or structured Latex code block preserving the original
 The resume should be ATS-friendly, human-readable, and perfectly aligned with the provided job description 
 while maintaining authenticity and avoiding AI-generated language patterns.
 
-Visual Latex format please - Respond with COLORFUL METADATA Latex output only.            
+Visual Latex format please - Respond with COLORFUL METADATA Latex output only.
+
+               
+                    
                     FORBIDDEN WORDS (DO NOT USE UNDER ANY CIRCUMSTANCES):
-                    ''Adept'', "Self-starter", "Championed", "Specialized", 'spearheaded', "Proven track record", "Expert", "Advanced", 
+                    "Adept", "Self-starter", "Championed", "Specialized", 'spearheaded', "Proven track record", "Expert", "Advanced", 
                     "Cutting-edge", "Leveraged", "Robust", "Key player", "Instrumental", "Mastery", "Well-versed",
                      "Results-driven", "Detail-oriented", "Team player", "Strategic", "Exceptional", "Outstanding", 
                      "Value-added", "Game-changer", "World-class", "Industry-leading", "Mission-critical", "Holistic"
@@ -518,7 +693,7 @@ Visual Latex format please - Respond with COLORFUL METADATA Latex output only.
                     INPUT FORMAT:
                     - JOB_DESCRIPTION skills 
                     - RESUME LaTeX:
-                 
+
  RESUME TO OPTIMISE: # pavan b
 *Email:* pavanb.react9@gmail.com
 *Contact:* +1913-283-5268
@@ -595,12 +770,12 @@ AI & ML
 \begin{itemize}[leftmargin=0.15in, labelsep=0.5em, itemsep=-2pt]
 
    [
-    ""[\items Bullet Point 1]"",
-    ""[\items Bullet Point 2]"",
-    ""[\items Bullet Point 3]"",
-    ""[\items Bullet Point 4]"",
-    ""[\items Bullet Point 5]"",
-    ""[\items Bullet Point 6]"",
+    "[\items Bullet Point 1]",
+    "[\items Bullet Point 2]",
+    "[\items Bullet Point 3]",
+    "[\items Bullet Point 4]",
+    "[\items Bullet Point 5]",
+    "[\items Bullet Point 6]",
     "[\items Bullet Point 7]",
     "[\items Bullet Point 8]",
     "[\items Bullet Point 9]",
@@ -653,8 +828,8 @@ AI & ML
       ]
     },
     {
-      ""role": "IT Support Engineer"",
-      ""client": "Early warning"",
+      "role": "IT Support Engineer",
+      "client": "Early warning",
       "duration": "2024-Feb - 2025-OCT",
       "location": "Chicago, Illinois",
       "responsibilities": [
@@ -730,7 +905,7 @@ AI & ML
       "year": "2024"
     }
   ],
-  ""certifications"": [
+  "certifications": [
 •	Google Data Analytics Professional Certificate by Google 
 •	Microsoft Azure AI Essentials Professional Certificate by Microsoft 
 •	The Complete SQL Bootcamp 
@@ -739,184 +914,184 @@ AI & ML
 •	AWS CLF-C02 
 ]
 }
-don't give different font color , i just need black color and font style should be time new roman 
-• Each bullet point must include one word highlighted JD keywords
-• Do NOT highlight random words — ONLY highlight JD keywords.Start directly with \\documentclass. No code fences.\n\nJOB DESCRIPTION:\n";
+- Each bullet point must include one word highlighted JD keywords using \\textbf{}
+- Do NOT highlight random words — ONLY highlight JD keywords
+- Font: Times New Roman, black only — no color
 
-document.getElementById("jdInput").addEventListener("input", function(){
-  document.getElementById("jdCount").textContent = this.value.length + " chars";
+JOB DESCRIPTION:
+`;
+
+// ════════════════════════════════════════════════════
+//  APP LOGIC
+// ════════════════════════════════════════════════════
+let fullPrompt = '';
+let pdfBlob = null, pdfUrl = null;
+
+document.getElementById('jdInput').addEventListener('input', function(){
+  document.getElementById('jdCount').textContent = this.value.length + ' chars';
 });
 
-function goStep(n){
-  [1,2,3,4].forEach(function(i){
-    document.getElementById("step"+i+"Panel").classList.remove("active");
-    document.getElementById("tab"+i).classList.remove("active");
+function goStep(n) {
+  [1,2,3,4].forEach(i => {
+    document.getElementById('step'+i+'Panel').classList.remove('active');
+    document.getElementById('tab'+i).classList.remove('active');
   });
-  document.getElementById("step"+n+"Panel").classList.add("active");
-  document.getElementById("tab"+n).classList.add("active");
+  document.getElementById('step'+n+'Panel').classList.add('active');
+  document.getElementById('tab'+n).classList.add('active');
 }
 
-function markDone(n){
-  document.getElementById("tab"+n).classList.add("done");
-  document.getElementById("n"+n).textContent = "✓";
+function markDone(n) {
+  const tab = document.getElementById('tab'+n);
+  tab.classList.add('done');
+  document.getElementById('n'+n).textContent = '✓';
 }
 
-function generatePrompt(){
-  var jd = document.getElementById("jdInput").value.trim();
-  if(!jd){ showToast("Paste a job description first!","err"); return; }
-  fullPrompt = HIDDEN_PROMPT + "\n" + jd;
-  document.getElementById("promptDisplay").textContent = fullPrompt;
+function generatePrompt() {
+  const jd = document.getElementById('jdInput').value.trim();
+  if (!jd) { toast('Paste a job description first!', 'err'); return; }
+  fullPrompt = HIDDEN_PROMPT + '\n' + jd;
+  document.getElementById('promptDisplay').textContent = fullPrompt;
   markDone(1); goStep(2);
-  showToast("✅ Prompt ready! Copy and paste into Claude AI.");
+  toast('✅ Prompt ready! Copy and paste into Claude AI.');
 }
 
-function copyPrompt(){
-  if(!fullPrompt){ showToast("Generate prompt first!","err"); return; }
-  doCopy(fullPrompt, "✅ Prompt copied! Paste in Claude AI.");
+function copyPrompt() {
+  if (!fullPrompt) { toast('Generate prompt first!', 'err'); return; }
+  copyText(fullPrompt, '✅ Prompt copied! Paste in Claude AI.');
   markDone(2);
 }
 
-function openClaude(){
-  window.open("https://claude.ai/new","_blank");
-  showToast("Claude AI opened in new tab!","inf");
+function openClaude() {
+  window.open('https://claude.ai/new', '_blank');
+  toast('Claude AI opened in new tab!', 'inf');
 }
 
-function pasteLatex(){
-  if(navigator.clipboard && navigator.clipboard.readText){
-    navigator.clipboard.readText().then(function(t){
-      if(t){ document.getElementById("latexEditor").value = t; updateLC(); showToast("✅ LaTeX pasted!"); }
-    }).catch(function(){
-      focusEditor();
-    });
-  } else {
-    focusEditor();
+async function pasteLatex() {
+  try {
+    const t = await navigator.clipboard.readText();
+    if (t) { document.getElementById('latexEditor').value = t; updateLC(); toast('✅ LaTeX pasted!'); }
+  } catch {
+    document.getElementById('latexEditor').focus();
+    toast('Press Ctrl+V inside the editor to paste', 'inf');
   }
 }
 
-function focusEditor(){
-  document.getElementById("latexEditor").focus();
-  showToast("Press Ctrl+V inside the editor to paste","inf");
+function updateLC() {
+  document.getElementById('lcCount').textContent =
+    document.getElementById('latexEditor').value.split('\n').length + ' lines';
 }
 
-function updateLC(){
-  document.getElementById("lcCount").textContent = document.getElementById("latexEditor").value.split("\n").length + " lines";
-}
-
-document.getElementById("latexEditor").addEventListener("keydown", function(e){
-  if(e.key === "Tab"){
+document.getElementById('latexEditor').addEventListener('keydown', function(e) {
+  if (e.key === 'Tab') {
     e.preventDefault();
-    var s = this.selectionStart;
-    this.value = this.value.substring(0,s) + "  " + this.value.substring(this.selectionEnd);
-    this.selectionStart = this.selectionEnd = s+2;
+    const s = this.selectionStart;
+    this.value = this.value.substring(0,s) + '  ' + this.value.substring(this.selectionEnd);
+    this.selectionStart = this.selectionEnd = s + 2;
   }
 });
 
-async function compileAndGo(){
-  var l = document.getElementById("latexEditor").value.trim();
-  if(!l){ showToast("Paste LaTeX first!","err"); return; }
+async function compileAndGo() {
+  const latex = document.getElementById('latexEditor').value.trim();
+  if (!latex) { toast('Paste LaTeX code first!', 'err'); return; }
   markDone(3); goStep(4);
-  await compilePDF(l);
+  await compilePDF(latex);
 }
 
-async function recompile(){
-  var l = document.getElementById("latexEditor").value.trim();
-  if(!l){ showToast("No LaTeX found. Go back to Step 3.","err"); return; }
-  await compilePDF(l);
+async function recompile() {
+  const latex = document.getElementById('latexEditor').value.trim();
+  if (!latex) { toast('No LaTeX found. Go back to Step 3.', 'err'); return; }
+  await compilePDF(latex);
 }
 
-async function compilePDF(latex){
-  setStatus("loading","⏳ Compiling...");
-  showSpin(true);
-  document.getElementById("pdfFrame").style.display = "none";
-  document.getElementById("pdfPlaceholder").style.display = "flex";
-  document.getElementById("pdfPlaceholder").innerHTML = '<div class="ico">⏳</div><div>Compiling LaTeX to PDF...</div>';
+async function compilePDF(latex) {
+  setStatus('loading','⏳ Compiling...'); showSpin(true);
+  document.getElementById('pdfFrame').style.display = 'none';
+  document.getElementById('pdfPlaceholder').style.display = 'flex';
+  document.getElementById('pdfPlaceholder').innerHTML = '<div class="icon">⏳</div><div>Compiling LaTeX to PDF...</div>';
 
-  var apis = [compileYtotech, compileLatexOnlineCc];
-  for(var i=0;i<apis.length;i++){
-    try{
-      var b = await apis[i](latex);
-      if(b && b.size > 500){
-        if(pdfUrl) URL.revokeObjectURL(pdfUrl);
-        pdfBlob = b; pdfUrl = URL.createObjectURL(b);
-        document.getElementById("pdfFrame").src = pdfUrl;
-        document.getElementById("pdfFrame").style.display = "block";
-        document.getElementById("pdfPlaceholder").style.display = "none";
-        setStatus("ok","✅ PDF Ready");
-        showSpin(false);
-        showToast("✅ PDF ready! Click Download PDF.");
+  const apis = [compileLatexOnline, compilePdflatex];
+  for (const api of apis) {
+    try {
+      const blob = await api(latex);
+      if (blob && blob.size > 1000) {
+        if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+        pdfBlob = blob; pdfUrl = URL.createObjectURL(blob);
+        document.getElementById('pdfFrame').src = pdfUrl;
+        document.getElementById('pdfFrame').style.display = 'block';
+        document.getElementById('pdfPlaceholder').style.display = 'none';
+        setStatus('ok','✅ PDF Ready'); showSpin(false);
+        toast('✅ PDF ready! Click Download PDF.');
         return;
       }
-    }catch(e){ console.warn("API "+i+" failed",e); }
+    } catch(e) { console.warn(e); }
   }
 
-  showSpin(false);
-  setStatus("err","❌ Compile failed");
-  document.getElementById("pdfPlaceholder").innerHTML = '<div class="ico">⚠️</div><div style="text-align:center;max-width:380px;color:#94a3b8;"><strong style="color:#f97316;">Compiler unavailable right now.</strong><br><br>Click <strong>🍃 Overleaf Backup</strong> — it copies your LaTeX and opens Overleaf so you can download the PDF from there.</div>';
-  showToast("Use Overleaf Backup button","err");
+  showSpin(false); setStatus('err','❌ Compile failed');
+  document.getElementById('pdfPlaceholder').innerHTML = `
+    <div class="icon">⚠️</div>
+    <div style="text-align:center;max-width:380px;color:#94a3b8;">
+      <strong style="color:#f97316;">Compiler unavailable right now.</strong><br><br>
+      Use the <strong>🍃 Overleaf Backup</strong> button — it copies your LaTeX and opens Overleaf automatically.
+    </div>`;
+  toast('Use Overleaf Backup button to get your PDF', 'err');
 }
 
-async function compileYtotech(latex){
-  var r = await fetch("https://latex.ytotech.com/builds/sync",{
-    method:"POST", headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({compiler:"pdflatex",resources:[{main:true,content:latex}]})
+async function compileLatexOnline(latex) {
+  const r = await fetch('https://latex.ytotech.com/builds/sync', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ compiler:'pdflatex', resources:[{main:true,content:latex}] })
   });
-  if(!r.ok) throw new Error("ytotech "+r.status);
-  var b = await r.blob();
-  if(b.type !== "application/pdf") throw new Error("not pdf");
+  if (!r.ok) throw new Error('ytotech ' + r.status);
+  const b = await r.blob();
+  if (b.type !== 'application/pdf') throw new Error('not pdf');
   return b;
 }
 
-async function compileLatexOnlineCc(latex){
-  var r = await fetch("https://latexonline.cc/compile?text="+encodeURIComponent(latex)+"&command=pdflatex");
-  if(!r.ok) throw new Error("latexonline "+r.status);
-  var b = await r.blob();
-  if(b.type !== "application/pdf") throw new Error("not pdf");
+async function compilePdflatex(latex) {
+  const r = await fetch('https://latexonline.cc/compile?text=' + encodeURIComponent(latex) + '&command=pdflatex');
+  if (!r.ok) throw new Error('latexonline ' + r.status);
+  const b = await r.blob();
+  if (b.type !== 'application/pdf') throw new Error('not pdf');
   return b;
 }
 
-function downloadPDF(){
-  if(!pdfBlob){ showToast("No PDF yet. Click Recompile.","err"); return; }
-  var a = document.createElement("a");
-  a.href = pdfUrl; a.download = "Pavan_B_Resume.pdf";
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  showToast("✅ PDF downloaded!");
+function downloadPDF() {
+  if (!pdfBlob) { toast('No PDF yet. Click Recompile.', 'err'); return; }
+  const a = document.createElement('a');
+  a.href = pdfUrl; a.download = 'Pavan_B_Resume.pdf'; a.click();
+  toast('✅ PDF downloaded!');
 }
 
-function openOverleaf(){ window.open("https://www.overleaf.com/project","_blank"); }
-function copyLatexForOverleaf(){ doCopy(document.getElementById("latexEditor").value,"✅ LaTeX copied! Paste into Overleaf."); }
+function openOverleaf() {
+  window.open('https://www.overleaf.com/project', '_blank');
+}
 
-function setStatus(t,txt){
-  var el = document.getElementById("statusPill");
+function copyLatexForOverleaf() {
+  const latex = document.getElementById('latexEditor').value;
+  copyText(latex, '✅ LaTeX copied! Paste into Overleaf new project.');
+}
+
+function setStatus(t, txt) {
+  const el = document.getElementById('statusPill');
   el.textContent = txt;
-  el.className = "status-pill " + (t==="ok"?"ok":t==="err"?"err":"loading");
+  el.className = 'status-pill ' + (t==='ok'?'ok':t==='err'?'err':'loading');
 }
-function showSpin(v){ document.getElementById("spin").style.display = v?"block":"none"; }
+function showSpin(v) { document.getElementById('spin').style.display = v?'block':'none'; }
 
-function doCopy(text, msg){
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(function(){ showToast(msg); }).catch(function(){ fallbackCopy(text,msg); });
-  } else {
-    fallbackCopy(text, msg);
-  }
-}
-
-function fallbackCopy(text, msg){
-  var ta = document.createElement("textarea");
-  ta.value = text;
-  ta.style.position = "fixed";
-  ta.style.opacity = "0";
-  document.body.appendChild(ta);
-  ta.focus(); ta.select();
-  try{ document.execCommand("copy"); showToast(msg); }
-  catch(e){ showToast("Copy failed — please copy manually","err"); }
-  document.body.removeChild(ta);
+function copyText(text, msg) {
+  navigator.clipboard.writeText(text).then(()=>toast(msg)).catch(()=>{
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    toast(msg);
+  });
 }
 
-function showToast(msg, type){
-  var el = document.getElementById("toast");
+function toast(msg, type='') {
+  const el = document.getElementById('toast');
   el.textContent = msg;
-  el.className = "toast show" + (type ? " "+type : "");
-  setTimeout(function(){ el.classList.remove("show"); }, 3500);
+  el.className = 'toast show' + (type?' '+type:'');
+  setTimeout(()=>el.classList.remove('show'), 3500);
 }
 </script>
 </body>
