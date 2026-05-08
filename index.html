@@ -8,66 +8,8 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e0e0e0; min-height: 100vh; }
 
-  /* ── LOGIN SCREEN ── */
-  #loginScreen {
-    position: fixed; inset: 0; background: #0f1117;
-    display: flex; align-items: center; justify-content: center;
-    z-index: 9999;
-  }
-  .login-box {
-    background: #1a1f2e; border: 1px solid #2d3561; border-radius: 14px;
-    padding: 40px 36px; width: 340px; text-align: center;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  }
-  .login-box .lock { font-size: 44px; margin-bottom: 14px; }
-  .login-box h2 { font-size: 20px; color: #fff; margin-bottom: 6px; }
-  .login-box p { font-size: 12px; color: #6b7280; margin-bottom: 24px; }
-  .login-box input {
-    width: 100%; padding: 12px 14px; background: #0f1117;
-    border: 1px solid #2a2f45; border-radius: 8px; color: #e0e0e0;
-    font-size: 15px; letter-spacing: 3px; text-align: center;
-    outline: none; transition: border 0.2s; margin-bottom: 14px;
-  }
-  .login-box input:focus { border-color: #3d4fd6; }
-  .login-box input.shake {
-    animation: shake 0.4s ease;
-    border-color: #ef4444;
-  }
-  @keyframes shake {
-    0%,100%{transform:translateX(0)}
-    20%{transform:translateX(-8px)}
-    40%{transform:translateX(8px)}
-    60%{transform:translateX(-6px)}
-    80%{transform:translateX(6px)}
-  }
-  .login-btn {
-    width: 100%; padding: 12px; background: #3d4fd6; color: #fff;
-    border: none; border-radius: 8px; font-size: 14px; font-weight: 700;
-    cursor: pointer; transition: background 0.2s;
-  }
-  .login-btn:hover { background: #4f61e8; }
-  .login-err {
-    font-size: 12px; color: #ef4444; margin-top: 10px;
-    min-height: 18px; transition: opacity 0.3s;
-  }
-  .attempts { font-size: 11px; color: #6b7280; margin-top: 8px; }
-
-  /* ── LOCKOUT SCREEN ── */
-  #lockoutScreen {
-    display: none; position: fixed; inset: 0; background: #0f1117;
-    align-items: center; justify-content: center; z-index: 9999;
-  }
-  .lockout-box {
-    background: #1a1f2e; border: 1px solid #ef4444; border-radius: 14px;
-    padding: 36px; width: 320px; text-align: center;
-  }
-  .lockout-box .icon { font-size: 44px; margin-bottom: 12px; }
-  .lockout-box h2 { color: #ef4444; font-size: 18px; margin-bottom: 8px; }
-  .lockout-box p { font-size: 13px; color: #94a3b8; }
-  #lockTimer { font-size: 28px; font-weight: 700; color: #f97316; margin: 16px 0; }
-
-  /* ── MAIN APP (hidden until login) ── */
-  #mainApp { display: none; }
+  /* ── MAIN APP ── */
+  #mainApp { display: block; }
 
   /* ── HEADER ── */
   .header {
@@ -78,13 +20,6 @@
   .header h1 { font-size: 20px; color: #fff; }
   .header span { font-size: 12px; color: #8892b0; }
   .badge { background: #3d4fd6; color: #fff; font-size: 11px; padding: 3px 10px; border-radius: 20px; }
-  .logout-btn {
-    margin-left: auto; padding: 7px 14px; background: #2a2f45; color: #ccc;
-    border: none; border-radius: 6px; cursor: pointer; font-size: 12px;
-    transition: background 0.2s;
-  }
-  .logout-btn:hover { background: #ef4444; color: #fff; }
-
   /* ── STEPS ── */
   .steps { display: flex; background: #161b27; border-bottom: 1px solid #2a2f45; }
   .step {
@@ -217,7 +152,11 @@
 //  🌐 IP LOCK CONFIG — ADD YOUR ALLOWED IPs HERE
 // ════════════════════════════════════════════════════
 const ALLOWED_IPS = [
-  "45.59.12.226" ];
+  "45.59.12.226"   // ← Replace with your company/WiFi IP
+  // Add more IPs separated by commas if needed:
+  // "203.0.113.10",
+  // "198.51.100.5"
+];
 // ════════════════════════════════════════════════════
 
 (function() {
@@ -245,31 +184,6 @@ const ALLOWED_IPS = [
 })();
 </script>
 
-<!-- ── LOGIN SCREEN ───────────────────────────────────────────────────────────-->
-<div id="loginScreen">
-  <div class="login-box">
-    <div class="lock">🔐</div>
-    <h2>Resume Optimizer</h2>
-    <p>Enter your password to access the tool</p>
-    <input type="password" id="pwInput" placeholder="••••••••" maxlength="30"
-      onkeydown="if(event.key==='Enter')checkPW()" autocomplete="off" />
-    <button class="login-btn" onclick="checkPW()">Unlock →</button>
-    <div class="login-err" id="loginErr"></div>
-    <div class="attempts" id="attemptsMsg"></div>
-  </div>
-</div>
-
-<!-- ── LOCKOUT SCREEN ─────────────────────────────────────────────────────────-->
-<div id="lockoutScreen" style="display:none;position:fixed;inset:0;background:#0f1117;align-items:center;justify-content:center;z-index:9999;">
-  <div class="lockout-box">
-    <div class="icon">🚫</div>
-    <h2>Too Many Attempts</h2>
-    <p>You have been locked out. Try again in:</p>
-    <div id="lockTimer">5:00</div>
-    <p style="font-size:12px;color:#6b7280;">Locked due to multiple failed attempts.</p>
-  </div>
-</div>
-
 <!-- ── MAIN APP ───────────────────────────────────────────────────────────────-->
 <div id="mainApp">
   <div class="header">
@@ -278,7 +192,6 @@ const ALLOWED_IPS = [
       <span>Paste JD → Copy Prompt → Claude AI → Paste LaTeX → Download PDF</span>
     </div>
     <div class="badge">ATS 100%</div>
-    <button class="logout-btn" onclick="logout()">🔒 Lock</button>
   </div>
 
   <div class="steps">
@@ -368,90 +281,6 @@ const ALLOWED_IPS = [
 <div class="toast" id="toast"></div>
 
 <script>
-// ════════════════════════════════════════════════════
-//  🔐 PASSWORD CONFIG — CHANGE THIS TO YOUR PASSWORD
-// ════════════════════════════════════════════════════
-const CORRECT_PASSWORD = "Pavan@2026";   // ← Change this
-const MAX_ATTEMPTS     = 5;              // wrong tries before lockout
-const LOCKOUT_SECONDS  = 300;            // 5 minutes lockout
-// ════════════════════════════════════════════════════
-
-let attempts = 0;
-let locked   = false;
-let lockInterval = null;
-
-// ── Check session (stay logged in on refresh within same tab) ──────────────────
-if (sessionStorage.getItem('auth') === 'ok') showApp();
-
-function checkPW() {
-  if (locked) return;
-  const val = document.getElementById('pwInput').value;
-
-  if (val === CORRECT_PASSWORD) {
-    sessionStorage.setItem('auth', 'ok');
-    attempts = 0;
-    showApp();
-  } else {
-    attempts++;
-    const input = document.getElementById('pwInput');
-    input.classList.add('shake');
-    setTimeout(() => input.classList.remove('shake'), 450);
-    input.value = '';
-
-    const left = MAX_ATTEMPTS - attempts;
-    document.getElementById('loginErr').textContent = '❌ Wrong password';
-
-    if (attempts >= MAX_ATTEMPTS) {
-      startLockout();
-    } else {
-      document.getElementById('attemptsMsg').textContent = left + ' attempt' + (left===1?'':'s') + ' remaining';
-    }
-  }
-}
-
-function startLockout() {
-  locked = true;
-  document.getElementById('loginScreen').style.display  = 'none';
-  const ls = document.getElementById('lockoutScreen');
-  ls.style.display = 'flex';
-
-  let remaining = LOCKOUT_SECONDS;
-  updateLockTimer(remaining);
-
-  lockInterval = setInterval(() => {
-    remaining--;
-    updateLockTimer(remaining);
-    if (remaining <= 0) {
-      clearInterval(lockInterval);
-      locked   = false;
-      attempts = 0;
-      ls.style.display = 'none';
-      document.getElementById('loginScreen').style.display = 'flex';
-      document.getElementById('loginErr').textContent = '';
-      document.getElementById('attemptsMsg').textContent = '';
-    }
-  }, 1000);
-}
-
-function updateLockTimer(s) {
-  const m = Math.floor(s/60), sec = s%60;
-  document.getElementById('lockTimer').textContent = m + ':' + String(sec).padStart(2,'0');
-}
-
-function showApp() {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('mainApp').style.display = 'block';
-}
-
-function logout() {
-  sessionStorage.removeItem('auth');
-  document.getElementById('mainApp').style.display = 'none';
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('pwInput').value = '';
-  document.getElementById('loginErr').textContent = '';
-  document.getElementById('attemptsMsg').textContent = '';
-  attempts = 0;
-}
 
 // ════════════════════════════════════════════════════
 //  HIDDEN PROMPT TEMPLATE
