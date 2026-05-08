@@ -3,247 +3,235 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RCB TOOL</title>
+<title>Resume Optimizer Tool</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e0e0e0; min-height: 100vh; }
 
   .header {
     background: linear-gradient(135deg, #1a1f2e, #2d3561);
-    padding: 18px 30px;
-    display: flex; align-items: center; gap: 14px;
+    padding: 16px 28px; display: flex; align-items: center; gap: 14px;
     border-bottom: 2px solid #3d4fd6;
   }
-  .header h1 { font-size: 22px; color: #fff; }
-  .header span { font-size: 13px; color: #8892b0; }
-  .badge { background: #3d4fd6; color: #fff; font-size: 11px; padding: 3px 10px; border-radius: 20px; }
+  .header h1 { font-size: 20px; color: #fff; }
+  .header span { font-size: 12px; color: #8892b0; }
+  .badge { background: #3d4fd6; color: #fff; font-size: 11px; padding: 3px 10px; border-radius: 20px; margin-left: auto; }
 
   .steps {
-    display: flex; gap: 0;
-    background: #161b27;
-    border-bottom: 1px solid #2a2f45;
+    display: flex; background: #161b27; border-bottom: 1px solid #2a2f45;
   }
   .step {
-    flex: 1; padding: 14px 10px; text-align: center; cursor: pointer;
-    font-size: 13px; color: #6b7280; border-bottom: 3px solid transparent;
-    transition: all 0.2s; position: relative;
+    flex: 1; padding: 13px 8px; text-align: center; cursor: pointer;
+    font-size: 12px; color: #6b7280; border-bottom: 3px solid transparent; transition: all 0.2s;
   }
   .step.active { color: #3d4fd6; border-bottom-color: #3d4fd6; background: #1a2035; }
-  .step .num {
-    display: inline-block; width: 22px; height: 22px; border-radius: 50%;
-    background: #2a2f45; color: #aaa; font-size: 11px; line-height: 22px;
-    margin-right: 6px; font-weight: bold;
+  .step.done { color: #22c55e; border-bottom-color: #22c55e; }
+  .num {
+    display: inline-block; width: 20px; height: 20px; border-radius: 50%;
+    background: #2a2f45; color: #aaa; font-size: 11px; line-height: 20px;
+    margin-right: 5px; font-weight: bold;
   }
   .step.active .num { background: #3d4fd6; color: #fff; }
   .step.done .num { background: #22c55e; color: #fff; }
-  .step.done { color: #22c55e; }
 
-  .container { display: flex; height: calc(100vh - 120px); }
-  .panel { flex: 1; padding: 20px; overflow-y: auto; display: none; flex-direction: column; gap: 14px; }
+  .container { height: calc(100vh - 112px); overflow: hidden; }
+  .panel { height: 100%; padding: 18px 22px; overflow-y: auto; display: none; flex-direction: column; gap: 12px; }
   .panel.active { display: flex; }
 
-  label { font-size: 12px; color: #8892b0; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+  label, .lbl { font-size: 11px; color: #8892b0; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; }
+
   textarea {
     width: 100%; background: #1a1f2e; border: 1px solid #2a2f45; border-radius: 8px;
     color: #e0e0e0; padding: 12px; font-size: 13px; resize: vertical;
-    font-family: 'Segoe UI', sans-serif; line-height: 1.6;
-    transition: border 0.2s;
+    font-family: 'Segoe UI', sans-serif; line-height: 1.6; transition: border 0.2s;
   }
   textarea:focus { outline: none; border-color: #3d4fd6; }
 
   .btn {
-    padding: 11px 22px; border: none; border-radius: 8px; cursor: pointer;
-    font-size: 13px; font-weight: 600; transition: all 0.2s; display: inline-flex;
-    align-items: center; gap: 8px;
+    padding: 10px 20px; border: none; border-radius: 7px; cursor: pointer;
+    font-size: 13px; font-weight: 600; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
   }
-  .btn-primary { background: #3d4fd6; color: #fff; }
-  .btn-primary:hover { background: #4f61e8; transform: translateY(-1px); }
-  .btn-success { background: #22c55e; color: #fff; }
-  .btn-success:hover { background: #16a34a; }
-  .btn-orange { background: #f97316; color: #fff; }
-  .btn-orange:hover { background: #ea6c0a; }
-  .btn-purple { background: #8b5cf6; color: #fff; }
-  .btn-purple:hover { background: #7c3aed; }
-  .btn-gray { background: #2a2f45; color: #ccc; }
-  .btn-gray:hover { background: #353b56; }
-  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .bp { background: #3d4fd6; color: #fff; }
+  .bp:hover { background: #4f61e8; }
+  .bg { background: #22c55e; color: #fff; }
+  .bg:hover { background: #16a34a; }
+  .bo { background: #f97316; color: #fff; }
+  .bo:hover { background: #ea6c0a; }
+  .bpu { background: #8b5cf6; color: #fff; }
+  .bpu:hover { background: #7c3aed; }
+  .bgr { background: #2a2f45; color: #ccc; }
+  .bgr:hover { background: #353b56; }
+  .br { background: #ef4444; color: #fff; }
+  .br:hover { background: #dc2626; }
 
-  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
-  .info-card {
+  .card {
     background: #1a2035; border: 1px solid #2d3561; border-radius: 8px;
-    padding: 14px; font-size: 13px; color: #94a3b8; line-height: 1.6;
+    padding: 13px; font-size: 13px; color: #94a3b8; line-height: 1.7;
   }
-  .info-card strong { color: #3d4fd6; }
+  .card strong { color: #3d4fd6; }
+  .card.warn { border-color: #f97316; }
+  .card.warn strong { color: #f97316; }
 
-  .toast {
-    position: fixed; top: 20px; right: 20px; background: #22c55e; color: #fff;
-    padding: 12px 20px; border-radius: 8px; font-size: 13px; font-weight: 600;
-    z-index: 9999; opacity: 0; transform: translateY(-10px);
-    transition: all 0.3s; pointer-events: none;
-  }
-  .toast.show { opacity: 1; transform: translateY(0); }
-  .toast.error { background: #ef4444; }
-  .toast.info { background: #3b82f6; }
-
-  .split { display: flex; gap: 14px; height: 100%; }
-  .split-left, .split-right { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-
-  .latex-editor {
-    flex: 1; width: 100%; background: #1a1f2e; border: 1px solid #2a2f45;
-    border-radius: 8px; color: #e0e0e0; padding: 12px;
-    font-family: 'Courier New', monospace; font-size: 12px;
-    resize: none; line-height: 1.6;
-  }
-  .latex-editor:focus { outline: none; border-color: #3d4fd6; }
-
-  .preview-area {
-    flex: 1; background: #fff; border-radius: 8px; padding: 20px;
-    color: #000; font-family: 'Times New Roman', serif; font-size: 11px;
-    overflow-y: auto; line-height: 1.5;
+  .code-box {
+    background: #1a1f2e; border: 1px solid #2a2f45; border-radius: 8px;
+    padding: 12px; font-size: 11.5px; color: #94a3b8; line-height: 1.7;
+    white-space: pre-wrap; word-break: break-word; max-height: 220px; overflow-y: auto;
+    font-family: 'Courier New', monospace;
   }
 
-  .section-title { font-size: 12px; color: #8892b0; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-  .char-count { font-size: 11px; color: #6b7280; text-align: right; }
-
-  #step3Panel { flex-direction: column; }
-
-  .loading-box {
-    background: #1a2035; border: 1px dashed #3d4fd6; border-radius: 8px;
-    padding: 30px; text-align: center; display: none; flex-direction: column;
-    align-items: center; gap: 14px;
+  .latex-area {
+    flex: 1; width: 100%; min-height: 0;
+    background: #1a1f2e; border: 1px solid #2a2f45; border-radius: 8px;
+    color: #e0e0e0; padding: 12px; font-family: 'Courier New', monospace;
+    font-size: 12px; resize: none; line-height: 1.6;
   }
-  .loading-box.show { display: flex; }
+  .latex-area:focus { outline: none; border-color: #3d4fd6; }
+
+  /* PDF viewer panel */
+  #step4Panel { flex-direction: column; }
+  .pdf-toolbar {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    background: #161b27; padding: 10px 14px; border-radius: 8px;
+    border: 1px solid #2a2f45;
+  }
+  .pdf-frame-wrap {
+    flex: 1; min-height: 0; border-radius: 8px; overflow: hidden;
+    border: 1px solid #2a2f45; background: #fff; position: relative;
+  }
+  iframe#pdfFrame {
+    width: 100%; height: 100%; border: none; display: block;
+  }
+  .pdf-placeholder {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; color: #6b7280; gap: 10px; font-size: 14px;
+  }
+  .pdf-placeholder .icon { font-size: 48px; }
+
   .spinner {
-    width: 36px; height: 36px; border: 3px solid #2a2f45;
-    border-top-color: #3d4fd6; border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    display: none; width: 20px; height: 20px; border: 3px solid #2a2f45;
+    border-top-color: #3d4fd6; border-radius: 50%; animation: spin 0.8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-text { font-size: 14px; color: #8892b0; }
-  .loading-sub { font-size: 12px; color: #4b5563; }
 
-  ::-webkit-scrollbar { width: 6px; }
+  .status-pill {
+    font-size: 11px; padding: 3px 10px; border-radius: 20px;
+    background: #2a2f45; color: #aaa;
+  }
+  .status-pill.ok { background: #14532d; color: #86efac; }
+  .status-pill.err { background: #450a0a; color: #fca5a5; }
+  .status-pill.loading { background: #1e3a5f; color: #93c5fd; }
+
+  .instr { background: #1a2035; border-left: 4px solid #f97316; border-radius: 0 8px 8px 0; padding: 13px; font-size: 13px; line-height: 1.8; color: #cbd5e1; }
+  .instr ol { padding-left: 18px; }
+  .instr li { margin-bottom: 3px; }
+
+  .toast {
+    position: fixed; bottom: 24px; right: 24px; background: #22c55e; color: #fff;
+    padding: 11px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    z-index: 999; opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .toast.err { background: #ef4444; }
+  .toast.inf { background: #3b82f6; }
+
+  ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: #1a1f2e; }
   ::-webkit-scrollbar-thumb { background: #3d4fd6; border-radius: 3px; }
 </style>
 </head>
 <body>
 
-<!-- IP LOCK -->
-<div id="ipBlockScreen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#0f1117; z-index:99999; flex-direction:column; align-items:center; justify-content:center;">
-  <div style="text-align:center; padding:40px; background:#1a1f2e; border:1px solid #ef4444; border-radius:16px; max-width:420px;">
-    <div style="font-size:48px; margin-bottom:16px;">🔒</div>
-    <h2 style="color:#ef4444; font-size:20px; margin-bottom:10px;">Access Denied</h2>
-    <p style="color:#8892b0; font-size:14px; line-height:1.6;">This tool is restricted to authorized company devices only.<br><br>If you believe this is a mistake, please contact your administrator.</p>
-  </div>
-</div>
-
-<script>
-(function() {
-  const ALLOWED_IPS = ["45.59.12.226"];
-  fetch("https://api.ipify.org?format=json")
-    .then(r => r.json())
-    .then(data => {
-      if (!ALLOWED_IPS.includes(data.ip)) {
-        const block = document.getElementById("ipBlockScreen");
-        block.style.display = "flex";
-        document.body.style.overflow = "hidden";
-      }
-    })
-    .catch(() => {
-      const block = document.getElementById("ipBlockScreen");
-      block.style.display = "flex";
-      document.body.style.overflow = "hidden";
-    });
-})();
-</script>
-
 <div class="header">
   <div>
-    <h1>RCB Tool</h1>
-    <span>Paste JD → AI generates LaTeX automatically → Edit → Download</span>
+    <h1>🚀 Resume Optimizer Tool</h1>
+    <span>Paste JD → Copy Prompt → Claude AI → Paste LaTeX → Download PDF</span>
   </div>
   <div class="badge">ATS 100%</div>
 </div>
 
 <div class="steps">
-  <div class="step active" id="tab1" onclick="goStep(1)">
-    <span class="num" id="n1">1</span> Paste Job Description
-  </div>
-  <div class="step" id="tab2" onclick="goStep(2)">
-    <span class="num" id="n2">2</span> AI Generating LaTeX
-  </div>
-  <div class="step" id="tab3" onclick="goStep(3)">
-    <span class="num" id="n3">3</span> Edit LaTeX
-  </div>
-  <div class="step" id="tab4" onclick="goStep(4)">
-    <span class="num" id="n4">4</span> Preview & Download
-  </div>
+  <div class="step active" id="tab1" onclick="goStep(1)"><span class="num" id="n1">1</span>Paste JD</div>
+  <div class="step" id="tab2" onclick="goStep(2)"><span class="num" id="n2">2</span>Copy → Claude AI</div>
+  <div class="step" id="tab3" onclick="goStep(3)"><span class="num" id="n3">3</span>Paste LaTeX</div>
+  <div class="step" id="tab4" onclick="goStep(4)"><span class="num" id="n4">4</span>PDF Download</div>
 </div>
 
 <div class="container">
 
-  <!-- STEP 1: Paste JD -->
+  <!-- STEP 1 -->
   <div class="panel active" id="step1Panel">
-    <div class="section-title">📋 Job Description</div>
-    <textarea id="jdInput" rows="16" placeholder="Paste the full job description here...&#10;&#10;Include:&#10;• Job Title&#10;• Required Skills&#10;• Responsibilities&#10;• Location / Pay Range"></textarea>
-    <div class="char-count" id="jdCount">0 characters</div>
+    <div class="lbl">📋 Job Description</div>
+    <textarea id="jdInput" rows="16" placeholder="Paste the full job description here...&#10;&#10;Include:&#10;• Job Title&#10;• Required Skills&#10;• Responsibilities&#10;• Location"></textarea>
     <div class="row">
-      <button class="btn btn-primary" id="generateBtn" onclick="generateResume()">⚡ Generate Resume with AI</button>
-      <button class="btn btn-gray" onclick="clearJD()">🗑 Clear</button>
+      <button class="btn bp" onclick="generatePrompt()">⚡ Generate Prompt & Continue</button>
+      <button class="btn bgr" onclick="document.getElementById('jdInput').value=''">🗑 Clear</button>
+      <span style="font-size:11px;color:#6b7280;" id="jdCount">0 chars</span>
     </div>
-    <div class="info-card">
-      <strong>How it works:</strong> Paste any job description above and click Generate. The AI will automatically create a fully optimized ATS resume in LaTeX format — no copy-pasting needed. Your prompt is securely hidden.
-    </div>
-  </div>
-
-  <!-- STEP 2: AI Loading -->
-  <div class="panel" id="step2Panel" style="align-items:center; justify-content:center;">
-    <div class="loading-box show" id="loadingBox">
-      <div class="spinner"></div>
-      <div class="loading-text" id="loadingText">🤖 AI is generating your optimized resume...</div>
-      <div class="loading-sub">This may take 30–60 seconds. Please wait.</div>
-    </div>
-    <div style="margin-top:16px;">
-      <button class="btn btn-gray" onclick="goStep(1)">← Cancel & Go Back</button>
+    <div class="card">
+      <strong>How it works:</strong> Paste the job description → tool auto-combines it with your hidden resume + all ATS instructions → one-click copy → paste into Claude AI → paste the LaTeX back here → download PDF instantly.
     </div>
   </div>
 
-  <!-- STEP 3: Edit LaTeX -->
+  <!-- STEP 2 -->
+  <div class="panel" id="step2Panel">
+    <div class="lbl">🤖 Generated Prompt (ready to paste into Claude AI)</div>
+    <div class="code-box" id="promptDisplay">Your prompt will appear here...</div>
+    <div class="row">
+      <button class="btn bg" onclick="copyPrompt()">📋 Copy Full Prompt</button>
+      <button class="btn bo" onclick="openClaude()">🔗 Open Claude AI</button>
+      <button class="btn bgr" onclick="goStep(1)">← Back</button>
+    </div>
+    <div class="instr">
+      <strong>📌 Steps:</strong>
+      <ol>
+        <li>Click <strong>Copy Full Prompt</strong></li>
+        <li>Click <strong>Open Claude AI</strong> (opens in new tab)</li>
+        <li>Paste into Claude AI chat → press Enter</li>
+        <li>Wait for Claude to return full LaTeX code</li>
+        <li>Select all of Claude's response → Copy</li>
+        <li>Come back here → Step 3 → Paste LaTeX</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
   <div class="panel" id="step3Panel">
-    <div class="section-title">✏️ Edit LaTeX Code</div>
-    <div class="row" style="margin-bottom:4px;">
-      <button class="btn btn-success" onclick="goStep(4)">👁 Preview & Download →</button>
-      <button class="btn btn-gray" onclick="goStep(1)">← Back</button>
-      <button class="btn btn-orange" onclick="clearLatex()">🗑 Clear</button>
-      <button class="btn btn-purple" onclick="formatLatex()">✨ Auto Format</button>
-      <span style="font-size:12px; color:#6b7280; align-self:center;" id="latexLineCount">0 lines</span>
+    <div class="lbl">✏️ Paste & Edit LaTeX Code</div>
+    <div class="row">
+      <button class="btn bp" onclick="pasteLatex()">📋 Paste from Clipboard</button>
+      <button class="btn bgr" onclick="document.getElementById('latexEditor').value='';updateLC()">🗑 Clear</button>
+      <button class="btn bg" onclick="compileAndGo()">🔄 Compile PDF →</button>
+      <span style="font-size:11px;color:#6b7280;" id="lcCount">0 lines</span>
     </div>
-    <textarea class="latex-editor" id="latexEditor" rows="28" placeholder="Your AI-generated LaTeX will appear here automatically..."></textarea>
+    <textarea class="latex-area" id="latexEditor" style="height: calc(100vh - 290px);"
+      placeholder="Paste your LaTeX from Claude AI here...&#10;&#10;\documentclass[a4paper,10pt]{article}&#10;...&#10;&#10;You can edit directly before compiling."
+      oninput="updateLC()"></textarea>
+    <div class="card warn">
+      <strong>Tip:</strong> Make any edits here — fix names, dates, bullet points, skills. When ready click <strong>Compile PDF</strong>.
+    </div>
   </div>
 
-  <!-- STEP 4: Preview & Download -->
+  <!-- STEP 4 -->
   <div class="panel" id="step4Panel">
-    <div class="section-title">📄 Preview & Download</div>
-    <div class="info-card" style="margin-bottom:4px;">
-      <strong>Note:</strong> LaTeX cannot render in browser directly. Download the <code>.tex</code> file and open in Overleaf to get your PDF.
+    <div class="pdf-toolbar">
+      <button class="btn bg" onclick="downloadPDF()" id="dlBtn">⬇️ Download PDF</button>
+      <button class="btn bp" onclick="recompile()" id="recompBtn">🔄 Recompile</button>
+      <button class="btn bgr" onclick="goStep(3)">← Edit LaTeX</button>
+      <div class="spinner" id="spin"></div>
+      <span class="status-pill" id="statusPill">Waiting...</span>
+      <button class="btn bo" style="margin-left:auto;" onclick="openOverleaf()">🍃 Overleaf (backup)</button>
     </div>
-    <div class="row" style="margin-bottom:8px;">
-      <button class="btn btn-success" onclick="downloadTex()">⬇️ Download .tex File</button>
-      <button class="btn btn-orange" onclick="openOverleaf()">🍃 Open in Overleaf</button>
-      <button class="btn btn-purple" onclick="copyLatexFinal()">📋 Copy LaTeX</button>
-      <button class="btn btn-gray" onclick="goStep(3)">← Back & Edit</button>
-    </div>
-    <div class="split">
-      <div class="split-left">
-        <div class="section-title">LaTeX Preview (Raw Code)</div>
-        <div id="latexPreviewBox" style="flex:1; max-height:none; font-family:'Courier New',monospace; font-size:11px; white-space:pre-wrap; word-break:break-all; background:#1a1f2e; border:1px solid #2a2f45; border-radius:8px; padding:14px; overflow-y:auto; color:#94a3b8;"></div>
+    <div class="pdf-frame-wrap" id="pdfWrap">
+      <div class="pdf-placeholder" id="pdfPlaceholder">
+        <div class="icon">📄</div>
+        <div>Click <strong>Compile PDF</strong> from Step 3 to generate your resume PDF</div>
       </div>
-      <div class="split-right">
-        <div class="section-title">Text Preview (Plain)</div>
-        <div id="plainPreview" class="preview-area"></div>
-      </div>
+      <iframe id="pdfFrame" style="display:none;"></iframe>
     </div>
   </div>
 
@@ -252,102 +240,59 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── PASTE YOUR API KEY HERE ───────────────────────────────────────────────────
-const ANTHROPIC_API_KEY = "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";
-// ──────────────────────────────────────────────────────────────────────────────
-
-const HIDDEN_PROMPT = `You are an ATS resume optimizer trained to generate resumes that score 100% on applicant tracking systems. Your task is to return ONLY optimized Latex output — no comments, no explanations, and no extra text.
+// ── HIDDEN PROMPT ──────────────────────────────────────────────────────────────
+const HIDDEN_PROMPT = `You are an ATS resume optimizer trained to generate resumes that score 100% on applicant tracking systems. Your task is to return ONLY optimized LaTeX output — no comments, no explanations, and no extra text.
 
 INSTRUCTIONS:
-- Output must be a valid Latex resume ONLY. Do not include markdown, formatting hints, or explanations.
+- Output must be valid LaTeX resume ONLY. No markdown, no formatting hints, no explanations.
 - Optimize for keyword density, ATS scoring, and semantic alignment.
+- You are a professional IT Support / Technical Support Engineer resume writer.
+- Use simple English words. Avoid complex vocabulary.
 
-REQUIREMENTS:
-- You are a professional IT Support / Technical Support Engineer resume writer
-- You need to prepare the resume to match the action verbs and tech stack
-- You are an ATS resume optimizer trained to generate resumes that score 100% on applicant tracking systems
-- Use simple English words - since the candidate is an Indian engineer, avoid complex vocabulary
+CRITICAL: GLOBAL VERB UNIQUENESS RULE
+- Each action verb MUST be used only ONCE across ALL sections
+- ZERO verb repetition across entire document
+- NO "-Ing" verbs anywhere (no designing, developing, building, managing)
+- Current role: mix of present and past tense
+- Completed roles: ONLY past tense
 
-CRITICAL: GLOBAL VERB UNIQUENESS RULE - HIGHEST PRIORITY
-ABSOLUTE REQUIREMENT: NO VERB REPETITION ACROSS ENTIRE RESUME
-- Each action verb MUST be used only ONCE across ALL client experiences and summary sections
-- Use different action verbs across all bullet points
-- Track used verbs and ensure no duplicates across entire document
+FORBIDDEN WORDS (never use):
+"Adept","Self-starter","Championed","Specialized","Spearheaded","Proven track record",
+"learned","wrote","Cutting-edge","Robust","Key player","Instrumental","Mastery",
+"Well-versed","Results-driven","Team player","Strategic","Exceptional","Outstanding",
+"Value-added","Game-changer","World-class","Industry-leading","Mission-critical",
+"Holistic","Engineered","Led","Investigated","Revolutionized","Pioneered","Masterminded","Leveraged"
 
-STRICT VERB-TENSE RULES:
-1. Current Project (latest/ongoing role): Use mix of present tense and past tense verbs. DO NOT use present-continuous (-Ing) verbs
-2. Completed Projects (all previous roles): Use ONLY past tense verbs. DO NOT use present tense or -Ing verbs
-3. GLOBAL FORBIDDEN RULE: Absolutely NO "-Ing" verbs anywhere in the resume
+SUMMARY: Exactly 18 bullet points, 230-280 characters each, unique verbs not used in experience sections.
+60% format: [Tool] + [Problem] + [Solution] + [Impact]. 40% alternative narrative.
 
-FORBIDDEN WORDS (DO NOT USE UNDER ANY CIRCUMSTANCES):
-"Adept", "Self-starter", "Championed", "Specialized", "Spearheaded", "Proven track record",
-"learned", "wrote", "Cutting-edge", "Robust", "Key player", "Instrumental",
-"Mastery", "Well-versed", "Results-driven", "Team player", "Strategic",
-"Exceptional", "Outstanding", "Value-added", "Game-changer", "World-class", "Industry-leading",
-"Mission-critical", "Holistic", "Engineered", "Led", "Investigated",
-"Revolutionized", "Pioneered", "Masterminded", "Leveraged"
+TECHNICAL SKILLS: 10-16 categories, 4-15 skills each. Include all JD mandatory skills.
 
-SECTION RULES:
+EXPERIENCE RULES:
+- Organize bullets by: Planning/Analysis, Development, Testing, Deployment, Monitoring/Maintenance
+- No -Ing verbs. No percentages (%). No forbidden words.
+- Each bullet 230-280 characters. Bold ONLY JD keywords using \\textbf{}.
+- Font: Times New Roman, black only, no color.
 
-PERSONAL INFO:
-- Change the title according to JD best suitable title that is perfectly aligned with JD
+CLIENT 1 - Xylem | Chicago, Illinois (Remote) | Nov 2025-Present | IT Support Analyst
+- 16 bullet points. Mix present/past tense. Healthcare domain. Azure cloud only. 75% JD skill integration.
 
-SUMMARY:
-- Create exactly 18 bullet points with character length between 230-280 characters per bullet
-- Based on experience in Banking, College, Finance, Healthcare domains, integrate JD mentioned keywords with existing project domains
-- Use 18 completely unique verbs that are NOT used in any client experience section
-- Start bullet points with humanized action verbs
-- Vary bullet structures: 60% use format [Technology/Tool] + [Problem] + [Solution] + [Impact], 40% use alternative narrative structures
+CLIENT 2 - Early Warning | Chicago, Illinois (Onsite) | Feb 2024-Oct 2025 | IT Support Engineer
+- 14 bullet points. Past tense only. Banking domain. Azure cloud only. 70% JD skill integration.
 
-TECHNICAL SKILLS SECTION:
-- Generate exactly 10-16 skill categories
-- Categories should include: Programming Languages, Frameworks, Frontend, Backend, Databases, Cloud Platforms, DevOps Tools, Testing Tools, Monitoring, Version Control, Security, AI/ML
-- Each category should have 4-15 relevant skills from JD
-- All mandatory JD skills must appear in technical skills section
+CLIENT 3 - University of Missouri Kansas City | Kansas City, MO (Onsite) | Feb 2023-Oct 2023 | IT Help Desk Engineer
+- 12 bullet points. Past tense only. College/Government domain. AWS cloud only. 65% JD skill integration.
 
-PROFESSIONAL EXPERIENCE - GLOBAL RULES:
-Organize bullets by these 6 phases: Planning/Analysis/Design, Development, Testing, Deployment, Monitoring/Maintenance
-- Do not change roles unless specifically requested
-- Ensure time compatibility
-- Vary sentence lengths and include authentic tasks: debugging, meetings, code reviews, troubleshooting
-- Avoid generic corporate buzzwords
-- Focus on concrete, human-readable actions and outcomes
-- DO NOT mention multi-cloud
-- ABSOLUTELY NO "-Ing" verbs anywhere
+CLIENT 4 - 3i Infotech Ltd. | India (Onsite) | Mar 2021-Dec 2022 | IT Support Specialist
+- 10 bullet points. Past tense only. Insurance domain. Azure cloud only. 60% JD skill integration.
 
-CLIENT 1 - Xylem (Chicago, Illinois)(Remote):
-- Keep original role: IT Support Analyst
-- Write exactly 16 bullet points per role, each between 230-280 characters long
-- Use mix of present and past tense verbs (current project)
-- Integrate JD skills and tools in 75% of bullet points
-- Project related to Finance
-- Use Azure cloud only
+SKILL REPETITION:
+- Mandatory JD skills: 6-8 times each across summary + responsibilities
+- Implied mandatory skills: 4-6 times each
+- Relevant skills: 2-4 times each
+- Environment section for each client must list all technologies used
 
-CLIENT 2 - Early Warning (Chicago, Illinois)(Onsite):
-- Keep original role: IT Support Engineer
-- Write exactly 14 bullet points per role, each between 230-280 characters long
-- Use ONLY past tense verbs (completed project)
-- Integrate JD skills and tools in 70% of bullet points
-- Project related to Banking
-- Use Azure cloud only
-
-CLIENT 3 - University of Missouri Kansas City (Kansas City, MO)(Onsite):
-- Keep original role: IT Help Desk Engineer
-- Write exactly 12 bullet points per role, each between 230-280 characters long
-- Use ONLY past tense verbs (completed project)
-- Integrate JD skills and tools in 65% of bullet points
-- Project related to Educations
-- Use AWS cloud only
-
-CLIENT 4 - 3i Infotech Ltd. (India)(Onsite):
-- Keep original role: IT Support Specialist
-- Write exactly 10 bullet points per role, each between 230-280 characters long
-- Use ONLY past tense verbs (completed project)
-- Integrate JD skills and tools in 60% of bullet points
-- Project related to Insurance
-- Use Azure cloud only
-
-CERTIFICATIONS (keep existing, do not add new):
+CERTIFICATIONS (keep exactly, do not add new):
 - Google Data Analytics Professional Certificate by Google
 - Microsoft Azure AI Essentials Professional Certificate by Microsoft
 - The Complete SQL Bootcamp
@@ -355,257 +300,223 @@ CERTIFICATIONS (keep existing, do not add new):
 - Excel & Google Workspace for Business
 - AWS CLF-C02
 
-SKILL REPETITION REQUIREMENTS:
-- Mandatory skills from JD: repeat 6-8 times each across Professional Summary and Responsibilities sections
-- Mandatory skills not explicitly mentioned: repeat 4-6 times
-- Non-mandatory but relevant skills: appear 2-4 times throughout resume
-- Environment section for each client MUST list all technologies used in that project
-
-TOOL & TECHNOLOGY MAPPING RULES:
-- DO NOT use technologies before their actual release/adoption dates
-- Match tools to project years realistically
-- Always ensure HIPAA compliance for healthcare projects
-
-EXECUTION CHECKLIST:
-- Exact bullet count per section: Summary: 18, Xylem: 16, Early Warning: 14, UMKC: 12, 3i Infotech: 10
-- Character count between 230-280 for EVERY bullet point
-- ZERO verb repetition across all sections
-- Strictly do not include any numeric percentages (%) in the output
-- All forbidden words avoided
-- Each bullet point must include one word highlighted JD keywords using \\textbf{}
-- Do NOT highlight random words — ONLY highlight JD keywords
-- Font: Times New Roman, black only — no color
-
-CANDIDATE RESUME DETAILS:
+CANDIDATE INFO:
 Name: Pavan B
-Email: pavanb.react9@gmail.com
-Contact: +1-913-283-5268
+Email: pavanb.react9@gmail.com | Phone: +1-913-283-5268
 LinkedIn: linkedin.com/in/pavan-b-821821377/
+Education: MS Computer Science, University of Missouri Kansas City, 2024
 
-Experience:
-- Xylem | Chicago, Illinois | Nov 2025 - Present | IT Support Analyst
-- Early Warning | Chicago, Illinois | Feb 2024 - Oct 2025 | IT Support Engineer
-- University of Missouri Kansas City | Kansas City, MO | Feb 2023 - Oct 2023 | IT Help Desk Engineer
-- 3i Infotech Ltd. | India | Mar 2021 - Dec 2022 | IT Support Specialist
+OUTPUT: Valid LaTeX only. \\documentclass[a4paper,10pt]{article} with Times New Roman, black text, no color. Start directly with \\documentclass. No code fences.
 
-Education: Master of Science, Computer Science - University of Missouri Kansas City, 2024
-
-FINAL OUTPUT FORMAT:
-Generate a valid LaTeX resume using \\documentclass[a4paper,10pt]{article} with Times New Roman font, black text only, ATS-friendly formatting. Output ONLY the LaTeX code with no comments, no explanations, no markdown.
-
-JOB DESCRIPTION TO OPTIMIZE FOR:
+JOB DESCRIPTION:
 `;
 
-// ─── STATE ─────────────────────────────────────────────────────────────────────
-let currentStep = 1;
+// ── STATE ──────────────────────────────────────────────────────────────────────
+let fullPrompt = '';
+let pdfBlob = null;
+let pdfUrl = null;
 
-// ─── STEP NAV ──────────────────────────────────────────────────────────────────
-function goStep(n) {
-  for (let i = 1; i <= 4; i++) {
-    document.getElementById('step' + i + 'Panel').classList.remove('active');
-    document.getElementById('tab' + i).classList.remove('active');
-  }
-  document.getElementById('step' + n + 'Panel').classList.add('active');
-  document.getElementById('tab' + n).classList.add('active');
-  currentStep = n;
-  if (n === 4) renderPreview();
-}
-
-// ─── STEP 1 ────────────────────────────────────────────────────────────────────
-document.getElementById('jdInput').addEventListener('input', function () {
-  document.getElementById('jdCount').textContent = this.value.length + ' characters';
+// ── JD char count ──────────────────────────────────────────────────────────────
+document.getElementById('jdInput').addEventListener('input', function(){
+  document.getElementById('jdCount').textContent = this.value.length + ' chars';
 });
 
-function clearJD() {
-  document.getElementById('jdInput').value = '';
-  document.getElementById('jdCount').textContent = '0 characters';
+// ── STEP NAV ───────────────────────────────────────────────────────────────────
+function goStep(n) {
+  [1,2,3,4].forEach(i => {
+    document.getElementById('step'+i+'Panel').classList.remove('active');
+    document.getElementById('tab'+i).classList.remove('active');
+  });
+  document.getElementById('step'+n+'Panel').classList.add('active');
+  document.getElementById('tab'+n).classList.add('active');
 }
 
-// ─── GENERATE RESUME VIA API ───────────────────────────────────────────────────
-async function generateResume() {
+function markDone(n) {
+  const tab = document.getElementById('tab'+n);
+  tab.classList.add('done');
+  document.getElementById('n'+n).textContent = '✓';
+}
+
+// ── STEP 1: Generate Prompt ────────────────────────────────────────────────────
+function generatePrompt() {
   const jd = document.getElementById('jdInput').value.trim();
-  if (!jd) { showToast('Please paste a job description first!', 'error'); return; }
-
-  if (ANTHROPIC_API_KEY === "PASTE_YOUR_API_KEY_HERE") {
-    showToast('Please add your API key in the HTML file first!', 'error');
-    return;
-  }
-
-  const btn = document.getElementById('generateBtn');
-  btn.disabled = true;
-
+  if (!jd) { toast('Paste a job description first!', 'err'); return; }
+  fullPrompt = HIDDEN_PROMPT + '\n' + jd;
+  document.getElementById('promptDisplay').textContent = fullPrompt;
+  markDone(1);
   goStep(2);
+  toast('✅ Prompt ready! Copy it and paste into Claude AI.');
+}
 
-  const loadingMessages = [
-    "🤖 AI is analyzing the job description...",
-    "📝 Matching keywords and skills...",
-    "✍️ Writing your resume bullet points...",
-    "🔍 Optimizing for ATS scoring...",
-    "⚙️ Generating LaTeX formatting..."
-  ];
-  let msgIndex = 0;
-  const loadingInterval = setInterval(() => {
-    msgIndex = (msgIndex + 1) % loadingMessages.length;
-    document.getElementById('loadingText').textContent = loadingMessages[msgIndex];
-  }, 4000);
+// ── STEP 2: Copy & Open ────────────────────────────────────────────────────────
+function copyPrompt() {
+  if (!fullPrompt) { toast('Generate prompt first!', 'err'); return; }
+  copyText(fullPrompt, '✅ Prompt copied! Go paste it in Claude AI.');
+  markDone(2);
+}
+function openClaude() {
+  window.open('https://claude.ai/new', '_blank');
+  toast('Claude AI opened in new tab!', 'inf');
+}
 
+// ── STEP 3: Paste LaTeX ────────────────────────────────────────────────────────
+async function pasteLatex() {
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
-        "anthropic-dangerous-direct-browser-access": "true"
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 8000,
-        messages: [
-          { role: "user", content: HIDDEN_PROMPT + "\n\n" + jd }
-        ]
-      })
-    });
-
-    clearInterval(loadingInterval);
-
-    if (!response.ok) {
-      const err = await response.json();
-      throw new Error(err.error?.message || "API error");
-    }
-
-    const data = await response.json();
-    const latex = data.content[0].text.trim();
-
-    document.getElementById('latexEditor').value = latex;
-    updateLineCount();
-
-    document.getElementById('n1').parentElement.classList.add('done');
-    document.getElementById('n2').parentElement.classList.add('done');
-
-    btn.disabled = false;
-    goStep(3);
-    showToast('✅ Resume generated! Review and edit if needed.');
-
-  } catch (err) {
-    clearInterval(loadingInterval);
-    btn.disabled = false;
-    goStep(1);
-    showToast('❌ Error: ' + err.message, 'error');
+    const t = await navigator.clipboard.readText();
+    if (t) { document.getElementById('latexEditor').value = t; updateLC(); toast('✅ LaTeX pasted!'); }
+  } catch {
+    document.getElementById('latexEditor').focus();
+    toast('Clipboard blocked — press Ctrl+V inside the editor', 'inf');
   }
 }
 
-// ─── STEP 3 ────────────────────────────────────────────────────────────────────
-function clearLatex() {
-  document.getElementById('latexEditor').value = '';
-  updateLineCount();
-}
-
-function formatLatex() {
-  const val = document.getElementById('latexEditor').value;
-  if (!val.trim()) { showToast('Nothing to format!', 'error'); return; }
-  const formatted = val.replace(/\r\n/g, '\n').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n');
-  document.getElementById('latexEditor').value = formatted;
-  showToast('✨ LaTeX formatted!');
-}
-
-function updateLineCount() {
+function updateLC() {
   const lines = document.getElementById('latexEditor').value.split('\n').length;
-  document.getElementById('latexLineCount').textContent = lines + ' lines';
+  document.getElementById('lcCount').textContent = lines + ' lines';
 }
 
-document.getElementById('latexEditor').addEventListener('input', updateLineCount);
+// Tab support in editor
 document.getElementById('latexEditor').addEventListener('keydown', function(e) {
   if (e.key === 'Tab') {
     e.preventDefault();
-    const s = this.selectionStart, end = this.selectionEnd;
-    this.value = this.value.substring(0, s) + '  ' + this.value.substring(end);
+    const s = this.selectionStart;
+    this.value = this.value.substring(0,s) + '  ' + this.value.substring(this.selectionEnd);
     this.selectionStart = this.selectionEnd = s + 2;
   }
 });
 
-// ─── STEP 4 ────────────────────────────────────────────────────────────────────
-function renderPreview() {
-  const latex = document.getElementById('latexEditor').value;
-  document.getElementById('latexPreviewBox').textContent = latex || '(No LaTeX code yet)';
-  if (latex) {
-    let plain = latex
-      .replace(/\\documentclass.*?\n/g, '')
-      .replace(/\\usepackage.*?\n/g, '')
-      .replace(/\\geometry.*?\n/g, '')
-      .replace(/\\begin\{document\}/g, '')
-      .replace(/\\end\{document\}/g, '')
-      .replace(/\\begin\{center\}/g, '')
-      .replace(/\\end\{center\}/g, '')
-      .replace(/\\begin\{itemize\}.*?\n/g, '')
-      .replace(/\\end\{itemize\}/g, '')
-      .replace(/\\section\{([^}]+)\}/g, '\n━━ $1 ━━\n')
-      .replace(/\\textbf\{([^}]+)\}/g, '$1')
-      .replace(/\\textit\{([^}]+)\}/g, '$1')
-      .replace(/\\LARGE\s*/g, '')
-      .replace(/\\large\s*/g, '')
-      .replace(/\\vspace\{[^}]+\}/g, '')
-      .replace(/\\hfill/g, '   ')
-      .replace(/\\item\s*/g, '• ')
-      .replace(/\\href\{[^}]*\}\{([^}]+)\}/g, '$1')
-      .replace(/\\href\{[^}]*\}/g, '')
-      .replace(/\$\|\$/g, '|')
-      .replace(/\$[^$]*\$/g, '')
-      .replace(/\{|\}/g, '')
-      .replace(/\\\\/g, '\n')
-      .replace(/\\[a-zA-Z]+/g, '')
-      .replace(/\n{3,}/g, '\n\n')
-      .trim();
-    document.getElementById('plainPreview').innerHTML = '<pre style="white-space:pre-wrap;font-family:Times New Roman,serif;font-size:11px;color:#000;">' + escHtml(plain) + '</pre>';
-  } else {
-    document.getElementById('plainPreview').innerHTML = '<p style="color:#999;text-align:center;margin-top:40px;">No LaTeX code to preview</p>';
+// ── STEP 4: Compile PDF ────────────────────────────────────────────────────────
+async function compileAndGo() {
+  const latex = document.getElementById('latexEditor').value.trim();
+  if (!latex) { toast('Paste LaTeX code first!', 'err'); return; }
+  markDone(3);
+  goStep(4);
+  await compilePDF(latex);
+}
+
+async function recompile() {
+  const latex = document.getElementById('latexEditor').value.trim();
+  if (!latex) { toast('No LaTeX code found. Go back to Step 3.', 'err'); return; }
+  await compilePDF(latex);
+}
+
+async function compilePDF(latex) {
+  setStatus('loading', '⏳ Compiling...');
+  showSpin(true);
+  document.getElementById('pdfFrame').style.display = 'none';
+  document.getElementById('pdfPlaceholder').style.display = 'flex';
+  document.getElementById('pdfPlaceholder').innerHTML = '<div class="icon">⏳</div><div>Compiling your LaTeX resume to PDF...</div>';
+
+  // Free LaTeX compilation APIs - try in order
+  const apis = [
+    () => compileLatexOnline(latex),
+    () => compilePdflatex(latex),
+  ];
+
+  let success = false;
+  for (const api of apis) {
+    try {
+      const blob = await api();
+      if (blob && blob.size > 1000) {
+        success = true;
+        if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+        pdfBlob = blob;
+        pdfUrl = URL.createObjectURL(blob);
+        document.getElementById('pdfFrame').src = pdfUrl;
+        document.getElementById('pdfFrame').style.display = 'block';
+        document.getElementById('pdfPlaceholder').style.display = 'none';
+        setStatus('ok', '✅ PDF Ready');
+        showSpin(false);
+        toast('✅ PDF compiled! Click Download PDF to save.');
+        return;
+      }
+    } catch(e) { console.warn('API failed:', e); }
   }
+
+  // All APIs failed — show Overleaf fallback
+  showSpin(false);
+  setStatus('err', '❌ Compile failed');
+  document.getElementById('pdfPlaceholder').innerHTML = `
+    <div class="icon">⚠️</div>
+    <div style="text-align:center;max-width:400px;">
+      <strong style="color:#f97316;">Compiler unavailable.</strong><br><br>
+      Click <strong>Overleaf (backup)</strong> button above → Create new project → Paste your LaTeX → Download PDF from Overleaf.<br><br>
+      <button class="btn bp" onclick="copyLatexForOverleaf()">📋 Copy LaTeX for Overleaf</button>
+    </div>`;
+  toast('Compiler busy — use Overleaf button to get your PDF', 'err');
 }
 
-function escHtml(t) {
-  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+// LaTeX Online API (latex.ytotech.com)
+async function compileLatexOnline(latex) {
+  const resp = await fetch('https://latex.ytotech.com/builds/sync', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      compiler: 'pdflatex',
+      resources: [{ main: true, content: latex }]
+    })
+  });
+  if (!resp.ok) throw new Error('latex.ytotech failed: ' + resp.status);
+  const blob = await resp.blob();
+  if (blob.type !== 'application/pdf') throw new Error('Not a PDF');
+  return blob;
 }
 
-function downloadTex() {
-  const latex = document.getElementById('latexEditor').value;
-  if (!latex.trim()) { showToast('No LaTeX code to download!', 'error'); return; }
-  const blob = new Blob([latex], { type: 'text/plain' });
+// latexonline.cc fallback
+async function compilePdflatex(latex) {
+  const encoded = encodeURIComponent(latex);
+  const url = `https://latexonline.cc/compile?text=${encoded}&command=pdflatex`;
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error('latexonline.cc failed');
+  const blob = await resp.blob();
+  if (blob.type !== 'application/pdf') throw new Error('Not a PDF');
+  return blob;
+}
+
+// ── DOWNLOAD PDF ───────────────────────────────────────────────────────────────
+function downloadPDF() {
+  if (!pdfBlob) { toast('No PDF compiled yet. Click Recompile first.', 'err'); return; }
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'pavan_resume.tex';
+  a.href = pdfUrl;
+  a.download = 'Pavan_B_Resume.pdf';
   a.click();
-  showToast('✅ .tex file downloaded! Open in Overleaf to get PDF.');
+  toast('✅ PDF downloaded!');
 }
 
 function openOverleaf() {
-  const latex = document.getElementById('latexEditor').value;
-  if (!latex.trim()) { showToast('No LaTeX code yet!', 'error'); return; }
-  window.open('https://www.overleaf.com/latex/templates', '_blank');
-  showToast('Overleaf opened! Create new project and paste your .tex file.', 'info');
+  window.open('https://www.overleaf.com/project', '_blank');
+  toast('Overleaf opened — create new project and paste LaTeX', 'inf');
 }
 
-function copyLatexFinal() {
+function copyLatexForOverleaf() {
   const latex = document.getElementById('latexEditor').value;
-  if (!latex.trim()) { showToast('No LaTeX code to copy!', 'error'); return; }
-  navigator.clipboard.writeText(latex).then(() => {
-    showToast('✅ LaTeX code copied!');
-  }).catch(() => {
+  copyText(latex, '✅ LaTeX copied! Paste into Overleaf.');
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function setStatus(type, txt) {
+  const el = document.getElementById('statusPill');
+  el.textContent = txt;
+  el.className = 'status-pill ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : 'loading');
+}
+function showSpin(v) {
+  document.getElementById('spin').style.display = v ? 'block' : 'none';
+}
+
+function copyText(text, msg) {
+  navigator.clipboard.writeText(text).then(() => toast(msg)).catch(() => {
     const ta = document.createElement('textarea');
-    ta.value = latex;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast('✅ LaTeX code copied (fallback)!');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    toast(msg);
   });
 }
 
-// ─── TOAST ─────────────────────────────────────────────────────────────────────
-function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show ' + (type === 'error' ? 'error' : type === 'info' ? 'info' : '');
-  setTimeout(() => t.classList.remove('show'), 3200);
+function toast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' '+type : '');
+  setTimeout(() => el.classList.remove('show'), 3500);
 }
 </script>
 </body>
