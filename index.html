@@ -298,7 +298,7 @@ function logout(){
 
 // ─── PROMPT ───────────────────────────────────────────────
 var HIDDEN_PROMPT = "
-You are an ATS resume optimizer trained to generate resumes that score 100% on applicant tracking systems. Your task is to return ONLY optimized Latex output — no comments, no explanations, and no extra text.
+You are an ATS(test) resume optimizer trained to generate resumes that score 100% on applicant tracking systems. Your task is to return ONLY optimized Latex output — no comments, no explanations, and no extra text.
 
                     INSTRUCTIONS:
                     - Output must be a valid Latex resume ONLY. Do not include markdown, formatting hints, or explanations.
@@ -496,7 +496,7 @@ while maintaining authenticity and avoiding AI-generated language patterns.
 
 Visual Latex format please - Respond with COLORFUL METADATA Latex output only.            
                     FORBIDDEN WORDS (DO NOT USE UNDER ANY CIRCUMSTANCES):
-                    "Adept", "Self-starter", "Championed", "Specialized", 'spearheaded', "Proven track record", "Expert", "Advanced", 
+                    ''Adept'', "Self-starter", "Championed", "Specialized", 'spearheaded', "Proven track record", "Expert", "Advanced", 
                     "Cutting-edge", "Leveraged", "Robust", "Key player", "Instrumental", "Mastery", "Well-versed",
                      "Results-driven", "Detail-oriented", "Team player", "Strategic", "Exceptional", "Outstanding", 
                      "Value-added", "Game-changer", "World-class", "Industry-leading", "Mission-critical", "Holistic"
@@ -595,12 +595,12 @@ AI & ML
 \begin{itemize}[leftmargin=0.15in, labelsep=0.5em, itemsep=-2pt]
 
    [
-    "[\items Bullet Point 1]",
-    "[\items Bullet Point 2]",
-    "[\items Bullet Point 3]",
-    "[\items Bullet Point 4]",
-    "[\items Bullet Point 5]",
-    "[\items Bullet Point 6]",
+    ""[\items Bullet Point 1]"",
+    ""[\items Bullet Point 2]"",
+    ""[\items Bullet Point 3]"",
+    ""[\items Bullet Point 4]"",
+    ""[\items Bullet Point 5]"",
+    ""[\items Bullet Point 6]"",
     "[\items Bullet Point 7]",
     "[\items Bullet Point 8]",
     "[\items Bullet Point 9]",
@@ -653,8 +653,8 @@ AI & ML
       ]
     },
     {
-      "role": "IT Support Engineer",
-      "client": "Early warning",
+      ""role": "IT Support Engineer"",
+      ""client": "Early warning"",
       "duration": "2024-Feb - 2025-OCT",
       "location": "Chicago, Illinois",
       "responsibilities": [
@@ -730,7 +730,7 @@ AI & ML
       "year": "2024"
     }
   ],
-  "certifications": [
+  ""certifications"": [
 •	Google Data Analytics Professional Certificate by Google 
 •	Microsoft Azure AI Essentials Professional Certificate by Microsoft 
 •	The Complete SQL Bootcamp 
