@@ -188,10 +188,10 @@ const ALLOWED_IPS = [
 <div id="mainApp">
   <div class="header">
     <div>
-      <h1>🚀 RAM CARRER BRIDGE Optimizer Tool</h1>
-      <span>Paste JD → Copy Prompt → Claude AI → Download PDF</span>
+      <h1>🚀 Resume Optimizer Tool</h1>
+      <span>Paste JD → Copy Prompt → Claude AI → Paste LaTeX → Download PDF</span>
     </div>
-    <div class="badge">This tool build by pavan </div>
+    <div class="badge">ATS 100%</div>
   </div>
 
   <div class="steps">
@@ -264,7 +264,14 @@ const ALLOWED_IPS = [
         <button class="btn bgr" onclick="goStep(3)">← Edit LaTeX</button>
         <div class="spinner" id="spin"></div>
         <span class="status-pill" id="statusPill">Waiting...</span>
-        <button class="btn bo" style="margin-left:auto;" onclick="copyLatexForOverleaf();openOverleaf()">🍃 Overleaf Backup</button>
+        <div style="margin-left:auto; display:flex; align-items:center; gap:6px;">
+          <input id="filenameInput" type="text" value="Pavan_B_Resume"
+            style="padding:7px 10px; background:#1a1f2e; border:1px solid #2a2f45; border-radius:6px;
+                   color:#e0e0e0; font-size:12px; width:180px; outline:none;"
+            onfocus="this.style.borderColor='#3d4fd6'" onblur="this.style.borderColor='#2a2f45'"
+            placeholder="filename (no .pdf)" />
+          <span style="font-size:12px; color:#6b7280;">.pdf</span>
+        </div>
       </div>
       <div class="pdf-frame-wrap" id="pdfWrap">
         <div class="pdf-placeholder" id="pdfPlaceholder">
@@ -884,18 +891,10 @@ async function compilePdflatex(latex) {
 
 function downloadPDF() {
   if (!pdfBlob) { toast('No PDF yet. Click Recompile.', 'err'); return; }
+  const name = (document.getElementById('filenameInput').value.trim() || 'Resume') + '.pdf';
   const a = document.createElement('a');
-  a.href = pdfUrl; a.download = 'Pavan_B_Resume.pdf'; a.click();
-  toast('✅ PDF downloaded!');
-}
-
-function openOverleaf() {
-  window.open('https://www.overleaf.com/project', '_blank');
-}
-
-function copyLatexForOverleaf() {
-  const latex = document.getElementById('latexEditor').value;
-  copyText(latex, '✅ LaTeX copied! Paste into Overleaf new project.');
+  a.href = pdfUrl; a.download = name; a.click();
+  toast('✅ Downloaded as ' + name);
 }
 
 function setStatus(t, txt) {
