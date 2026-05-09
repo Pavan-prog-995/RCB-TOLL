@@ -196,9 +196,9 @@ const ALLOWED_IPS = [
   </div>
 
   <div class="steps">
-    <div class="step active" id="tab1" onclick="goStep(1)"><span class="num" id="n1">1</span>Paste JD</div>
+    <div class="step active" id="tab1" onclick="goStep(1)"><span class="num" id="n1">1</span>Paste Job Description </div>
     <div class="step" id="tab2" onclick="goStep(2)"><span class="num" id="n2">2</span>Copy → Claude AI</div>
-    <div class="step" id="tab3" onclick="goStep(3)"><span class="num" id="n3">3</span>Paste LaTeX</div>
+    <div class="step" id="tab3" onclick="goStep(3)"><span class="num" id="n3">3</span>Paste Data From Ai </div>
     <div class="step" id="tab4" onclick="goStep(4)"><span class="num" id="n4">4</span>PDF Download</div>
   </div>
 
@@ -209,7 +209,7 @@ const ALLOWED_IPS = [
       <div class="lbl">📋 Job Description</div>
       <textarea id="jdInput" rows="16" placeholder="Paste the full job description here...&#10;&#10;Include:&#10;• Job Title  • Required Skills  • Responsibilities  • Location"></textarea>
       <div class="row">
-        <button class="btn bp" onclick="generatePrompt()">⚡ Generate Prompt & Continue</button>
+        <button class="btn bp" onclick="generatePrompt()">⚡ Generate & Continue</button>
         <button class="btn bgr" onclick="document.getElementById('jdInput').value=''">🗑 Clear</button>
         <span style="font-size:11px;color:#6b7280;" id="jdCount">0 chars</span>
       </div>
@@ -250,7 +250,7 @@ const ALLOWED_IPS = [
         <span style="font-size:11px;color:#6b7280;" id="lcCount">0 lines</span>
       </div>
       <textarea class="latex-area" id="latexEditor" style="height:calc(100vh - 290px);"
-        placeholder="Paste your LaTeX from Claude AI here...&#10;&#10;\documentclass[a4paper,10pt]{article}&#10;..."
+        placeholder="Paste your Code from Claude AI here...&#10;&#10;\documentclass[a4paper,10pt]{article}&#10;..."
         oninput="updateLC()"></textarea>
       <div class="card warn">
         <strong>Tip:</strong> Edit anything here — names, dates, bullet points. Then click <strong>Compile PDF</strong>.
@@ -262,7 +262,7 @@ const ALLOWED_IPS = [
       <div class="pdf-toolbar">
         <button class="btn bg" onclick="downloadPDF()">⬇️ Download PDF</button>
         <button class="btn bp" onclick="recompile()">🔄 Recompile</button>
-        <button class="btn bgr" onclick="goStep(3)">← Edit LaTeX</button>
+        <button class="btn bgr" onclick="goStep(3)">← Edit Code </button>
         <div class="spinner" id="spin"></div>
         <span class="status-pill" id="statusPill">Waiting...</span>
         <div style="margin-left:auto; display:flex; align-items:center; gap:6px;">
