@@ -152,11 +152,11 @@
 //  🌐 IP LOCK CONFIG — ADD YOUR ALLOWED IPs HERE
 // ════════════════════════════════════════════════════
 const ALLOWED_IPS = [
-  "45.59.12.226" , "122.177.242.204"  // ← Replace with your company/WiFi IP
+  "45.59.12.226" , "122.177.242.204" , "115.98.197.139" // ← Replace with your company/WiFi IP
   // Add more IPs separated by commas if needed:
   // "203.0.113.10",
   // "198.51.100.5"
-];
+;
 // ════════════════════════════════════════════════════
 
 (function() {
@@ -296,18 +296,18 @@ Please ensure a minimum of 30 job applications are submitted each day. For any q
 const HIDDEN_PROMPT = String.raw`You are an ATS resume optimizer trained to generate resumes that score 100% on applicant tracking systems. Your task is to return ONLY optimized Latex output — no comments, no explanations, and no extra text.
 
                     INSTRUCTIONS:
-                    - Output must be a valid Latex resume ONLY. Do not include markdown, formatting hints, or explanations.
+                    - Output must be a valid Latex TEX resume ONLY. Do not include markdown, formatting hints, or explanations.
                     - Optimize for keyword density, ATS scoring, and semantic alignment.
 
-                    REQUIREMENTS: you Professional Resume writer in their specific domain like for example if the job Description belongs to
+                    REQUIREMENTS: you Professional Resume writer in their specific domain like for example if the jd belongs to
     IT - YOU ARE IT/SOFTWARE architect if that is not technical you are expert in that you based on that experience and skills mentioned in the job description
-->you need to prepare the resume to match the action verbs and tech stack as well you need to know which technology came in which year according to that you need add the skills and tools and server based on theire matured timeline   - COLORFUL METADATA Latex
+->you need to prepare the resume to match the action verbs and tech stack as well you need to know which technology came in which year according to that you need add the skills and tools and server based on theire matured timeline   - COLORFUL METADATA Latex TEX 
 ->You are an ATS resume optimizer trained to generate resumes that score 100% on applicant tracking systems.
-->Your task is to return ONLY optimized Latex output — no comments, no explanations, and no extra text.
-->Respond with visual Latex metadata. Generate a Latex artifact preserving the original schema exactly.
+->Your task is to return ONLY optimized Latex TEX output — no comments, no explanations, and no extra text.
+->Respond with visual Latex TEX metadata. Generate a Latex TEX artifact preserving the original schema exactly.
 
 INSTRUCTIONS:
-• Output must be a valid Latex resume ONLY. Do not include markdown, formatting hints, or explanations.
+• Output must be a valid Latex TEX resume ONLY. Do not include markdown, formatting hints, or explanations.
 • Optimize for keyword density, ATS scoring, and semantic alignment.
 • Use simple English words - since I am an Indian engineer, avoid complex vocabulary .
 
@@ -320,6 +320,8 @@ CRITICAL: GLOBAL VERB UNIQUENESS RULE - HIGHEST PRIORITY
 STRICT VERB-TENSE RULES:
     1. Current Project (latest/ongoing role):
        • Use mix of present tense and past tense verbs
+       # End of Selection
+```
        • DO NOT use present-continuous (-Ing) verbs
        
     2. Completed Projects (all previous roles):
@@ -334,7 +336,7 @@ STRICT VERB-TENSE RULES:
 
 FORBIDDEN WORDS (DO NOT USE UNDER ANY CIRCUMSTANCES):
     "Adept", "Self-starter", "Championed", "Specialized", "Spearheaded", "Proven track record", 
-    "learned", "wrote" "Cutting-edge", "Robust", "Key player", "Instrumental", 
+    "learned", "wrote", "Cutting-edge", "Robust", "Key player", "Instrumental", 
     "Mastery", "Well-versed", "Results-driven", , "Team player", "Strategic", 
     "Exceptional", "Outstanding", "Value-added", "Game-changer", "World-class", "Industry-leading", 
     "Mission-critical", "Holistic", "Engineered", "Led", "Investigated"
@@ -346,13 +348,12 @@ FORBIDDEN WORDS (DO NOT USE UNDER ANY CIRCUMSTANCES):
 SECTION RULES
 
 PERSONAL INF
-    • Change the title according to JD best suitable title that is perfectly aligned with JD
+     • Change the title according to JD best suitable title that is perfectly aligned with JD
 
-
-SUMMARY
-    • Create exactly 18 bullet points with character length between 230-280 characters per bullet
-    • 5+ years of experience in [specialization]" in a human way
-    • Based on my experience in the Banking, College, Finance, Healthcare[3i infotech]  domains, integrate JD mentioned keywords with my existing project domains
+Professional Summary	
+    • Create exactly 15 bullet points with character length between 230-280 characters per bullet
+    • 4+ years of experience in [specialization]" in a human way
+    • Based on my experience in the Finance, Electrical, and Electronics Manufacturing, Education domains, integrate JD mentioned keywords with my existing project domains
     • Use 18 completely unique verbs that are NOT used in any client experience section
     • Start bullet points with humanized action verbs
     • Vary bullet structures: 60% bullet points use format [Technology/Tool] + [Problem] + [Solution] + [Impact], 40% use alternative narrative structures
@@ -363,7 +364,7 @@ TECHNICAL SKILLS SECTION:
       Cloud Platforms, DevOps Tools, Testing Tools, Monitoring, Version Control, Security, AI/ML
     • Each category should have 4-15 relevant skills from JD
     • All mandatory JD skills must appear in technical skills section
-    • Format as Latex object with category names as keys and skill arrays as values
+    • Format as Latex TEX object with category names as keys and skill arrays as values
 
 PROFESSIONAL EXPERIENCE - GLOBAL RULES (APPLY TO ALL CLIENTS)
     . you should follow the bullet point in  under below clint experience like 
@@ -385,49 +386,42 @@ PROFESSIONAL EXPERIENCE - GLOBAL RULES (APPLY TO ALL CLIENTS)
     • ABSOLUTELY NO "-Ing" verbs anywhere
 PROFESSIONAL EXPERIENCE - CLIENT SPECIFIC RULES
 
-CLIENT 1 (Senior-most role - most recent) - Xylem (Chicago, Illinois)(remote)
+CLIENT 1 (Senior-most role - most recent) - Flagstar Bank (New York, NY)(Remote)
+
     • Do not change the role, keep the original role
     • Write exactly 16 bullet points per role, each between 230-280 characters long
     • Use mix of present and past tense verbs (current project)
     • Integrate JD skills and tools in 75% of bullet points using format: [Technology/Tool] + [Problem] + [Solution/Action Taken] + [Impact]
-    • My project is related to Finance — write the bullet points by integrating JD keywords with project Utilities regulations
+    • My project is related to Finance — write the bullet points by integrating JD keywords with project Industrial Machinery Manufacturing regulations
     • Use varied action verbs appropriate to enterprise-level, real-time projects with latest technologies (Senior-most role) level, avoiding repetition across bullets
     • Each verb MUST be unique - NO verb repetition across entire resume
-    • Location: Chicago, Illinois
-    • I already have Azure, use only this cloud. Integrate JD keywords with Azure cloud services only
+    • Location: New York, NY
+    
 
-
-
-
-CLIENT 2 (Client 2 level) - Early Warning (Chicago, Illinois)(onsite)
+CLIENT 2 (Client 2 level) -  Panasonic (Irvine, CA )(Onsite)
     • Do not change the role, keep the original role
     • Write exactly 14 bullet points per role, each between 230-280 characters long
     • Use ONLY past tense verbs (completed project)
     • Integrate JD skills and tools in 70% of bullet points using format: [Technology/Tool] + [Problem] + [Solution/Action Taken] + [Impact]
-    • My project is related to Banking — write the bullet points by integrating JD keywords with project Banking regulations
+    • My project is related to Electrical, and Electronics Manufacturing — write the bullet points by integrating JD keywords with project Banking regulations
     • Use varied action verbs appropriate to mid-senior level with progression from Client 1 level, avoiding repetition across bullets
     • Each verb MUST be unique - NO verb repetition across entire resume
-    • Location: Chicago, Illinois
-    • I already have Azure, use only this cloud. Integrate JD keywords with Azure cloud services only
+    • Location: – Irvine, CA
+    
 
-
-
-
-CLIENT 3 (Client 3 level) - University of Missouri Kansas City(Kansas City, MO)(onsite)
+CLIENT 3 (Client 3 level) - University of Missouri Kansas City  (Kansas city, Mo)(Onsite)
     • Do not change the role, keep the original role
     • Write exactly 12 bullet points per role, each between 230-280 characters long
     • Use ONLY past tense verbs (completed project)
     • Integrate JD skills and tools in 65% of bullet points using format: [Technology/Tool] + [Problem] + [Solution/Action Taken] + [Impact]
-    • My project is related to Education — write the bullet points by integrating JD keywords with project College regulations
-    • Use varied action verbs appropriate to moderate responsibility level level, avoiding repetition across bullets
+    • My project is related to Education — write the bullet points by integrating JD keywords with project Government regulations
+    • Use varied action verbs appropriate to moderate responsibility level, avoiding repetition across bullets
     • Each verb MUST be unique - NO verb repetition across entire resume
-    • Location: Delaware
-    • I already have AWS, use only this cloud. Integrate JD keywords with AWS cloud services only
+    • Location:Kansas city, MO
+    
 
 
-
-
-CLIENT 4 (Client 4 level) - 3I Infotech (India)(onsite)
+CLIENT 4 (Client 4 level) -  Concentrix ( Hyderabad,Ta India)(Onsite)
     • Do not change the role, keep the original role
     • Write exactly 10 bullet points per role, each between 230-280 characters long
     • Use ONLY past tense verbs (completed project)
@@ -435,8 +429,8 @@ CLIENT 4 (Client 4 level) - 3I Infotech (India)(onsite)
     • My project is related to Insurance — write the bullet points by integrating JD keywords with project Insurance regulations
     • Use varied action verbs appropriate to entry-to-mid level responsibilities level, avoiding repetition across bullets
     • Each verb MUST be unique - NO verb repetition across entire resume
-    • Location: india
-    • I already have Azure, use only this cloud. Integrate JD keywords with Azure cloud services only
+    • Location: Hyderabad, India
+    
 
 
 CERTIFICATIONS
@@ -445,9 +439,11 @@ CERTIFICATIONS
 SKILL REPETITION REQUIREMENTS:
    i will extract the skills from job description in section wise in YAML file in section wise
     1.mandatory_skills_tools_services:
-    the skills which are mentioed the  above section repeat those skills in 6 to 8 times each skill
+          mention these present client :
+
+    the skills which are mentioned the  above section repeat those skills in 6 to 8 times each skill
     2.mandatory_skills_tools_services_that are_not_explicitly_mentioned :
-     thesere also mandtory skills so mention 4 to 6 times 
+     these're also mandatory skills so mention 4 to 6 times 
     ->across Professional Summary, Responsibilities sections
     • Non-mandatory but relevant skills: appear 2-4 times throughout resume
     • Integrate JD keywords naturally into bullet points without forced repetition
@@ -497,23 +493,23 @@ CRITICAL: Follow these rules exactly. No deviations, no additional formatting, n
 
 
 FINAL OUTPUT FORMAT:
-Generate a Latex artifact or structured Latex code block preserving the original schema exactly, with no metadata changes.
+Generate a Latex TEX artifact or structured Latex TEX code block preserving the original schema exactly, with no metadata changes.
 The resume should be ATS-friendly, human-readable, and perfectly aligned with the provided job description 
 while maintaining authenticity and avoiding AI-generated language patterns.
 
-Visual Latex format please - Respond with COLORFUL METADATA Latex output only.
+Visual Latex TEX format please - Respond with COLORFUL METADATA Latex TEX output only.
 
                
                     
                     FORBIDDEN WORDS (DO NOT USE UNDER ANY CIRCUMSTANCES):
-                    "Adept", "Self-starter", "Championed", "Specialized", 'spearheaded', "Proven track record", "Expert", "Advanced", 
+                    "Adept", "Self-starter", "Championed", "Specialized",'spearheaded', "Proven track record", "Expert", "Advanced", 
                     "Cutting-edge", "Leveraged", "Robust", "Key player", "Instrumental", "Mastery", "Well-versed",
                      "Results-driven", "Detail-oriented", "Team player", "Strategic", "Exceptional", "Outstanding", 
                      "Value-added", "Game-changer", "World-class", "Industry-leading", "Mission-critical", "Holistic"
 
-                    use below simple words as per reaquirements:
+                    use below simple words as per requirements:
                     Built,Engineered,Deployed,Assembled
-                    Used,Utilized,Leveraged,Applied,Integrated
+           	    Used,Utilized,Leveraged,Applied,Integrated
                     Operationalized,Work closely,Collaborated,Aligned with,Partnered with
                     Contributed,Delivered,Created,Developed,Produced
                     Helped,Assisted,Supported,Facilitated,
@@ -523,18 +519,160 @@ Visual Latex format please - Respond with COLORFUL METADATA Latex output only.
                     Developed,Architected,Engineered,Implemented,Executed
                     Set up,Deployed,Configured,Integrated,Automated
                     Updated,Modernized,Scaled,Transformed,Enhanced
-                    Improved, Optimized, Streamlined, Enhanced,
+                    Improved,Optimized,Streamlined,Enhanced,
                     -based on their candidate experience number of years use experience specific words
                     INPUT FORMAT:
                     - JOB_DESCRIPTION skills 
-                    - RESUME LaTeX:
+                    - RESUME LaTeX-TEX:
+                    
+JOB DESCRIPTION: {
+Network Engineer
+Apply
+Network Engineer
+Apply
+locations
+SCP Lafayette - Corporate Office
+time type
+Full time
+posted on
+Posted 23 Days Ago
+job requisition id
+JR6821
 
- RESUME TO OPTIMISE: # pavan b
-*Email:* pavanb.react9@gmail.com
-*Contact:* +1913-283-5268
+46%
+Resume Match
+6 of 13 keywords
+Simplify
+Simplify
+V1
+V2
+At SCP Health, what you do matters
 
+As part of the SCP Health team, you have an opportunity to make a difference. At our core, we work to bring hospitals and healers together in the pursuit of clinical effectiveness. With a portfolio of over 8 million patients, 7500 providers, 30 states, and 400 healthcare facilities, SCP Health is a leader in clinical practice management spanning the entire continuum of care, including emergency medicine, hospital medicine, wellness, telemedicine, intensive care, and ambulatory care.
+
+Why you will love working here:
+
+- Strong track record of providing excellent work/life balance.
+
+- Comprehensive benefits package and competitive compensation.
+
+- Commitment to fostering an inclusive culture of belonging and empowerment through our core values - collaboration, courage, agility, and respect.
+
+Responsibilities:
+
+Infrastructure Administration (60%)
+
+Administer enterprise Layer3 routing environment
+
+Cisco routers including data center & regional office class devices.
+
+Protocols including but not limited to BGP, EIGRP, OSPF
+
+Administer enterprise Layer2 switching environment
+
+Cisco data center core switching, distribution layer switching, & wireless infrastructure.
+
+Protocols including but not limited to 802.1q trunking, 802.3af PoE, STP, CDP, LACP, ARP, HSRP
+
+Manage enterprise WAN environment
+
+MPLS backbone, SIP trunks, Point to Point, & dedicated Internet circuits
+
+Monitor utilization & downtime using network tools such as internal & external network performance monitoring systems, Netflow traffic analyzation system and enterprise network mapping system.
+
+Configure new WAN & internet circuits as needed
+
+Work with service providers on circuit details, hand-off, demarc extensions, etc.
+
+Deploy and configure BGP routing using Cisco best practice standards.  
+
+Administer enterprise wireless environment
+
+Meraki dashboard, environmental sensors, & wireless access points
+
+Administer enterprise security environment
+
+Cisco Adaptive Security Appliances / FirePower
+
+Configure & troubleshoot Site-to-Site VPN tunnels
+
+Cisco Anyconnect remote access VPN
+
+Collaborate with Information Security Team to ensure network design compliance
+
+Document standards for new deployments and oversee future network rollouts and migrations.
+
+Work closely with IT Security and Data Center Operations to maintain security, resiliency, redundancy, and replication of production systems across data centers.
+
+Prepare and maintain updated documentation including network diagrams, standardized procedures, and baseline configurations for all network-related systems and environments.
+
+Collaborate with Unified Communications Engineers in design & management of optimal efficiency of voice & video communications
+
+Layer 2, Layer 3, DHCP, QoS, etc
+
+Cisco Unified Call Manager, Cisco Unity Connection, Cisco Unified Presence, Cisco Unified Border Element (CUBE), & Cisco Telepresence
+
+Administer IP address schema throughout the enterprise and administer Device42 IPAM solution.
+
+Follow strict change management by consistently submitting detailed change logs in a timely fashion and adhering to SCP Health change control mandates and policies.
+
+Administer data integrity as it relates security patches, hardware monitoring, etc
+
+Deploy software upgrades as needed to devices and servers.
+
+Strive for and adhere to industry standard 99.999% uptime of network connectivity servicing systems designated mission critical.
+
+Special Projects (20%)
+
+Collaborate with Network Architect to consult for all aspects of network infrastructure hardware, circuits, & network security.
+
+Work with other departments to provide high availability for critical systems and streamline access for high-profile applications.
+
+Constantly evaluate security posture from both Internet and Intranet viewpoints.  Deploy updated security patches to all devices and regularly vet all perimeter access configurations.
+
+ 
+
+Knowledge, Skills, and Abilities:
+
+Excellent interpersonal skills
+
+Ability to communicate effectively with technical and non-technical personnel
+
+Ability to communicate effectively with team members
+
+Ability to communicate effectively with management
+
+Team player
+
+Eager to learn and progress in technical skillset
+
+Organizational skills
+
+Ability to set and adhere to realistic deadlines
+
+Must be able to work effectively in stressful situations
+
+Ability to manage time and workload effectively
+
+Demonstrated ability to troubleshoot complex network issues
+
+May be required to conduct presentations to IT management
+
+ 
+
+EDUCATION (Required and/or Preferred):
+
+Bachelor’s degree or comparable experience in related field
+
+}
+
+
+ RESUME TO OPTIMISE: # Bhargav Ram B
+*Email:*  bhargavm2244@gmail.com
+*Contact:* +1 816-430-4948
+*Linkedin* https://www.linkedin.com/in/mbhargavramm/
 ## Professional Experience Summary
-• Having experience in Finance, Banking, Education, Healthcare(3i info tech).
+Having experience in  Finance, Banking, Electrical, and Electronics Manufacturing, Education domains
 
 ## Technical Skills
 Programming Languages & Frameworks
@@ -549,84 +687,74 @@ Version Control & Collaboration
 AI & ML
 
 ## Professional Experience
-*Xylem* | Charlotte NC | 2025-Nov - Present
-*Based ON job Description*
-
-*Early warning* | Chicago, Illinois  | 2024-feb - 2025-Oct
-**
-*University of Missouri Kansas City * | Kansas City | 2023-Feb - 2023-Oct
-*It Help Desk Engineer*
-
-*3i Infotech Ltd.* | India | 2021-mar - 2022-dec
-*It support Specialist*
-
+*Flagstar Bank * |  Newyork,NY | Nov 2025 to Present 
+*Panisonic* |  Irvine, Ca  | feb 2025 to Nov 2025
+*University Missouri Kansas City* | Kansas city, Missouri | sep 2022 to dec 2024
+*Concentrix* | Hyderabad, India | Oct 2019 – May 2020
 
 
                     by following the above instructions and rules, 
                     you need to optimize the resume and return the ats 100% optimized resume in the same format as the input resume.
-                    - don't ask  questions any thing you have everything just return Latex format resume.
-                    -no single comment other then below Latex format resume.
-                    Output ONLY this Latex format and STOP:
+                    - don't ask  questions any thing you have everything just return Latex TEX format resume.
+                    -no single comment other then below Latex TEX format resume.
+                    Output ONLY this Latex-TEX format and STOP:
                 {
- \documentclass[a4paper,10pt]{article}
 
-% Language and font settings
-\usepackage[T1]{fontenc}
+\documentclass[10pt, letterpaper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage{times} % Times New Roman font
-\usepackage[english]{babel}
-
-% Layout and margins
+\usepackage[T1]{fontenc}
 \usepackage{geometry}
-\geometry{left=0.5in, top=0.5in, right=0.5in, bottom=0.5in}
+\usepackage{xcolor}
 \usepackage{enumitem}
-\usepackage{titlesec}
 \usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{charter}
 
-% Remove indentation
-\setlength{\parindent}{0pt}
+% Page Setup
+\geometry{left=0.5in, top=0.5in, right=0.5in, bottom=0.5in}
+\pagestyle{empty}
 
-% Section formatting
-\titleformat{\section}{\large\bfseries}{}{0em}{}[\titlerule]
-\titlespacing{\section}{0pt}{8pt}{4pt}
+% Color Definitions
+\definecolor{primary}{RGB}{0, 51, 102}
+\definecolor{sectionline}{RGB}{128, 128, 128}
+
+% Title Formatting
+\titleformat{\section}{\large\bfseries\color{primary}\uppercase}{}{0em}{}[\titlerule]
+\titlespacing{\section}{0pt}{10pt}{5pt}
 
 \begin{document}
 
-% Header
+% PERSONAL INFORMATION
 \begin{center}
-    {\LARGE \textbf{Pavan B}} \\
-    \vspace{2pt}
-    job location $|$ +1913-283-5268 $|$ \href{pavanb.react9@gmail.com} \\
-    \href{linkedin.com/in/pavan-b-821821377/}
+    {\Huge \textbf{Bhargav Ram M}} \\
+    \vspace{4pt}
+      +1 816-430-4948 | \href{mailto:bhargavm2244@gmail.com} \\
+    }
 \end{center}
-
-% Professional Summary
-\section{PROFESSIONAL SUMMARY}
-\begin{itemize}[leftmargin=0.15in, labelsep=0.5em, itemsep=-2pt]
-
-   [
-    "[\items Bullet Point 1]",
-    "[\items Bullet Point 2]",
-    "[\items Bullet Point 3]",
-    "[\items Bullet Point 4]",
-    "[\items Bullet Point 5]",
-    "[\items Bullet Point 6]",
-    "[\items Bullet Point 7]",
-    "[\items Bullet Point 8]",
-    "[\items Bullet Point 9]",
-    "[\items Bullet Point 10]",
-    "[\items Bullet Point 11]",
-    "[\items Bullet Point 12]",
-    "[\items Bullet Point 13]",
-    "[\items Bullet Point 14]",
-    "[\items Bullet Point 15]",
-    "[\items Bullet Point 16]",
-    "[\items Bullet Point 17]",
-    "[\items Bullet Point 18]"
+  },
+  "professional_summary": [
+    "\items [Bullet Point 1]",
+    "\items[Bullet Point 2]",
+    "\items[Bullet Point 3]",
+    "\items[Bullet Point 4]",
+    "\items[Bullet Point 5]",
+    "\items[Bullet Point 6]",
+    "\items[Bullet Point 7]",
+    "\items[Bullet Point 8]",
+    "\items[Bullet Point 9]",
+    "\items[Bullet Point 10]",
+    "\items[Bullet Point 11]",
+    "\items[Bullet Point 12]",
+    "\items[Bullet Point 13]",
+    "\items[Bullet Point 14]",
+    "\items[Bullet Point 15]",
+    "\items[Bullet Point 16]",
+    "\items[Bullet Point 17]",
+    "\items[Bullet Point 18]"
   ],
   "technical_skills": {
     "[Category 1]": [
-      "Skill1",
+      "\items Skill1",
       "Skill2"
     ],
     "[Category 2]": [
@@ -636,37 +764,37 @@ AI & ML
   },
   "experience": [
     {
-      "role": "Technical Customer Service Representative",
-      "client": "Xylem",
-      "duration": "2025-Nov - Present",
-      "location": "Charlotte, NC ",
+      "role": "",
+      "client": "Flagstar Bank",
+      "duration": "sep 2024 to Present ",
+      "location": " New York ,NY",
       "responsibilities": [
-        "[Bullet Point 1]",
-        "[Bullet Point 2]",
-        "[Bullet Point 3]",
-        "[Bullet Point 4]",
-        "[Bullet Point 5]",
-        "[Bullet Point 6]",
-        "[Bullet Point 7]",
-        "[Bullet Point 8]",
-        "[Bullet Point 9]",
-        "[Bullet Point 10]",
-        "[Bullet Point 11]",
-        "[Bullet Point 12]",
-        "[Bullet Point 13]",
-        "[Bullet Point 14]",
-        "[Bullet Point 15]",
-        "[Bullet Point 16]"
+        "\items[Bullet Point 1]",
+        "\items[Bullet Point 2]",
+        "\items[Bullet Point 3]",
+        "\items[Bullet Point 4]",
+        "\items[Bullet Point 5]",
+        "\items[Bullet Point 6]",
+        "\items[Bullet Point 7]",
+        "\items[Bullet Point 8]",
+        "\items[Bullet Point 9]",
+        "\items[Bullet Point 10]",
+        "\items[Bullet Point 11]",
+        "\items[Bullet Point 12]",
+        "\items[Bullet Point 13]",
+        "\items[Bullet Point 14]",
+        "\items[Bullet Point 15]",
+        "\items[Bullet Point 16]"
       ],
       "environment": [
         "[Technology stack will be populated from JD]"
       ]
     },
     {
-      "role": "IT Support Engineer",
-      "client": "Early warning",
-      "duration": "2024-Feb - 2025-OCT",
-      "location": "Chicago, Illinois",
+      "role": "",
+      "client": "Panasonic",
+      "duration": "April 2023 to sep 2024",
+      "location": " Irvine, CA",
       "responsibilities": [
         "[Bullet Point 1]",
         "[Bullet Point 2]",
@@ -688,10 +816,10 @@ AI & ML
       ]
     },
     {
-      "role": "It Help Desk Engineer ",
-      "client": "University of Missouri Kansas City",
-      "duration": "2023-Feb - 2023-Oct",
-      "location": "Kansas City, Mo",
+      "role": "",
+      "client": "University of Missouri Kansas city ",
+      "duration": "Sep 2022– Feb 2023",
+      "location": "Kansas city, MO ",
       "responsibilities": [
         "[Bullet Point 1]",
         "[Bullet Point 2]",
@@ -711,10 +839,10 @@ AI & ML
       ]
     },
     {
-      "role": "IT Support Specialist",
-      "client": "3i Infotech Ltd.",
-      "duration": "2021-Mar - 2022-DEC",
-      "location": "India ",
+      "role": "",
+      "client": "Concentrix",
+      "duration": "Oct 2019 – May 2020 ",
+      "location": "Bengaluru, Karnataka, India  ",
       "responsibilities": [
         "[Bullet Point 1]",
         "[Bullet Point 2]",
@@ -731,27 +859,25 @@ AI & ML
         "[Technology stack will be populated from JD]"
       ]
     },
-     ],
+    
+  ],
   "education": [
     {
-      "institution": "University of Missouri Kansas City",
-      "degree": "master's degree",
+      "institution": "University of Missouri Kansas City ",
+      "degree": "Bachelor's Degree",
       "field": "Computer Science",
-      "year": "2024"
+      "year": "Dec 2023"
     }
   ],
   "certifications": [
-•	Google Data Analytics Professional Certificate by Google 
-•	Microsoft Azure AI Essentials Professional Certificate by Microsoft 
-•	The Complete SQL Bootcamp 
-•	CompTIA A+ Certification  
-•	Excel & Google Workspace for Business  
-•	AWS CLF-C02 
-]
+CompTIA Security+ Expire of April 2029,
+CCNA
+ ]
 }
-- Each bullet point must include one word highlighted JD keywords using \\textbf{}
-- Do NOT highlight random words — ONLY highlight JD keywords
-- Font: Times New Roman, black only — no color
+
+You're a content formatter for LaTeX outputs. I just need black color and font style should be time new roman.
+• Each bullet point must include one word highlighted JD keywords
+• Do NOT highlight random words — ONLY highlight JD keywords
 
 JOB DESCRIPTION:
 `;
